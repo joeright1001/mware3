@@ -1,3 +1,5 @@
+# Create the Dockerfile directly on main
+cat > Dockerfile << 'EOF'
 # Use Node.js 18 with Debian (needed for Chrome dependencies)
 FROM node:18-bullseye-slim
 
@@ -11,24 +13,22 @@ RUN apt-get update \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Copy package files
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Bundle app source
 COPY . .
 
-# Expose port
 EXPOSE 3000
 
-# Add puppeteer flags to prevent sandbox issues
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
-# Start command
 CMD ["node", "server.js"]
+EOF
+
+# Add and commit it
+git add Dockerfile
+git commit -m "Add Dockerfile with puppeteer support"
+git push
