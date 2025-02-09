@@ -15,4 +15,8 @@ const corsOptions = {
     origin: "https://gold-buyers-christchurch.webflow.io",
     methods: "GET,POST,OPTIONS",
     allowedHeaders: "Content-Type",
+
+    
 };
+module.exports = corsOptions;
+
