@@ -1,25 +1,3 @@
-/**
- * Order Service
- * ------------
- * Purpose: Handles all business logic related to orders
- * Role: Centralizes order-related operations and database interactions
- * 
- * Key Features:
- * 1. Trade Order Generation (TO-XXXX format)
- * 2. Order Creation with validation
- * 3. JWT Token generation for order tracking
- * 
- * Dependencies:
- * - Database connection
- * - JWT for token generation
- * - JWT_SECRET environment variable
- * 
- * IMPORTANT CONFIGURATIONS:
- * - Starting order number: TO-2317 (modify if needed)
- * - JWT expiration time: 1h (modify if needed)
- * - JWT_SECRET in .env file
- */
-
 const pool = require('../../config/database');
 const jwt = require('jsonwebtoken');
 
@@ -48,7 +26,7 @@ class OrderService {
         const {
             first_name_order, email_order, total_price, // Required fields
             last_name_order, phone_order, product_name_full, quantity, price_nzd,
-            zoho_id, delivery, pay_in_person, checkbox_order, address, message, poli_pay,
+            zoho_id, delivery, pay_in_person, checkbox_order, address, message,
             date_picker_order, time_picker_order
         } = orderData;
 
@@ -71,15 +49,14 @@ class OrderService {
             `INSERT INTO orders (
                 trade_order, first_name_order, last_name_order, email_order, phone_order,
                 product_name_full, total_price, quantity, price_nzd, zoho_id, delivery,
-                pay_in_person, checkbox_order, address, message, poli_pay, token,
+                pay_in_person, checkbox_order, address, message, token,
                 date_picker_order, time_picker_order
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)`,
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`,
             [
                 trade_order, first_name_order, last_name_order || null, email_order, phone_order || null,
                 product_name_full || null, total_price, quantity || null, price_nzd || null, zoho_id || null,
                 delivery || null, pay_in_person || null, checkbox_order || null, address || null,
-                message || null, poli_pay || null, token,
-                date_picker_order || null, time_picker_order || null
+                message || null, token, date_picker_order || null, time_picker_order || null
             ]
         );
 

@@ -39,7 +39,7 @@ app.post("/create-order", async (req, res) => {
         const {
             first_name_order, email_order, total_price, // Required
             last_name_order, phone_order, product_name_full, quantity, price_nzd,
-            zoho_id, delivery, pay_in_person, checkbox_order, address, message, poli_pay,
+            zoho_id, delivery, pay_in_person, checkbox_order, address, message,
             date_picker_order, time_picker_order
         } = req.body;
 
@@ -59,13 +59,13 @@ app.post("/create-order", async (req, res) => {
         await pool.query(
             `INSERT INTO orders (trade_order, first_name_order, last_name_order, email_order, phone_order,
                 product_name_full, total_price, quantity, price_nzd, zoho_id, delivery,
-                pay_in_person, checkbox_order, address, message, poli_pay, token,
+                pay_in_person, checkbox_order, address, message, token,
                 date_picker_order, time_picker_order)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)`, 
             [trade_order, first_name_order, last_name_order || null, email_order, phone_order || null,
              product_name_full || null, total_price, quantity || null, price_nzd || null, zoho_id || null, 
              delivery || null, pay_in_person || null, checkbox_order || null, address || null, 
-             message || null, poli_pay || null, token, 
+             message || null, token, 
              date_picker_order || null, time_picker_order || null]
         );
 
