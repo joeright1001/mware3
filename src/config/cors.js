@@ -11,12 +11,10 @@
  */
 
 const corsOptions = {
-    // ⚠️ CONFIGURE: Change this URL for different environments
     origin: "https://gold-buyers-christchurch.webflow.io",
     methods: "GET,POST,OPTIONS",
     allowedHeaders: "Content-Type",
-
-    
+    credentials: true
 };
-module.exports = corsOptions;
 
+module.exports = corsOptions;
