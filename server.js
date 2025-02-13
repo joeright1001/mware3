@@ -38,19 +38,22 @@ const pool = require('./src/config/database');
 
 // Import routes
 const orderRoutes = require('./src/routes/public/orders');
+const paymentRoutes = require('./src/routes/public/payments'); // Add this line
 
 // Debug: Log environment variables
 console.log('Environment:', {
     NODE_ENV: process.env.NODE_ENV || 'development',
     PORT: process.env.PORT,
     DATABASE_URL: process.env.DATABASE_URL ? 'Set' : 'Not Set',
-    JWT_SECRET: process.env.JWT_SECRET ? 'Set' : 'Not Set'
+    JWT_SECRET: process.env.JWT_SECRET ? 'Set' : 'Not Set',
+    POLI_AUTH_CODE: process.env.POLI_AUTH_CODE ? 'Set' : 'Not Set'
 });
 
 // Debug: Log configurations
 console.log('Loaded configurations:', {
     corsOptions,
-    orderRoutes: typeof orderRoutes
+    orderRoutes: typeof orderRoutes,
+    paymentRoutes: typeof paymentRoutes
 });
 
 const app = express();
@@ -62,7 +65,8 @@ app.use(express.json());
 console.log('Middleware initialized');
 
 // Routes
-app.use("/", orderRoutes);  // Base URL for order routes
+app.use("/", orderRoutes);      // Base URL for order routes
+app.use("/api", paymentRoutes); // Payment status endpoint
 
 // Enhanced health check endpoint with database status
 app.get('/health', async (req, res) => {
