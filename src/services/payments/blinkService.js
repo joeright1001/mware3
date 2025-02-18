@@ -4,10 +4,23 @@
  * This service handles the integration with Blink Debit payment gateway.
  * Uses OAuth2 client credentials flow for authentication.
  * 
+ * Required Environment Variables:
+ * - BLINK_CLIENT_ID: OAuth2 client ID
+ * - BLINK_CLIENT_SECRET: OAuth2 client secret
+ * - BLINK_API_BASE_URL: Base URL for Blink API (e.g., https://sandbox.debit.blinkpay.co.nz/payments/v1)
+ * - BLINK_AUTH_URL: Authentication endpoint (e.g., https://sandbox.debit.blinkpay.co.nz/oauth2/token)
+ * - BLINK_REDIRECT_URL: Redirect URL after payment (e.g., https://your-domain.com)
+ * 
  * API Documentation Reference:
  * - Quick Payment Creation
  * - Authentication Flow
  * - PCR (Particulars, Code, Reference) Requirements
+ * 
+ * Error Handling:
+ * - Authentication failures
+ * - API timeouts
+ * - Invalid responses
+ * - Database errors
  */
 
 const axios = require('axios');
@@ -19,17 +32,27 @@ class BlinkService {
         // Initialize configuration from environment variables
         this.CLIENT_ID = process.env.BLINK_CLIENT_ID;
         this.CLIENT_SECRET = process.env.BLINK_CLIENT_SECRET;
-        this.BASE_URL = 'https://sandbox.debit.blinkpay.co.nz/payments/v1';
-        this.AUTH_URL = 'https://sandbox.debit.blinkpay.co.nz/oauth2/token';
-        this.REDIRECT_URL = 'https://gold-buyers-christchurch.webflow.io/';
+        this.BASE_URL = process.env.BLINK_API_BASE_URL;
+        this.AUTH_URL = process.env.BLINK_AUTH_URL;
+        this.REDIRECT_URL = process.env.BLINK_REDIRECT_URL;
         
         // Token management
         this.accessToken = null;
         this.tokenExpiry = null;
 
         // Configuration validation
-        if (!this.CLIENT_ID || !this.CLIENT_SECRET) {
-            console.error('Missing Blink API credentials. Check environment variables.');
+        const requiredEnvVars = [
+            'BLINK_CLIENT_ID',
+            'BLINK_CLIENT_SECRET',
+            'BLINK_API_BASE_URL',
+            'BLINK_AUTH_URL',
+            'BLINK_REDIRECT_URL'
+        ];
+
+        const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+        if (missingVars.length > 0) {
+            console.error('Missing required environment variables:', missingVars.join(', '));
+            throw new Error('Missing required environment variables for Blink integration');
         }
     }
 
@@ -156,7 +179,7 @@ class BlinkService {
                 await pool.query(
                     `INSERT INTO payments (order_record_id, provider, status, amount, payment_url) 
                      VALUES ($1, $2, $3, $4, $5)`,
-                    [orderData.record_id, 'BLINK', 'pending', formattedAmount, response.data.redirect_uri]
+                    [orderData.record_id, 'BLINK', 'success', formattedAmount, response.data.redirect_uri]
                 );
 
                 return response.data.redirect_uri;
@@ -182,6 +205,7 @@ class BlinkService {
                  error.response?.data?.detail || error.message]
             );
             
+            console.error('Blink payment link generation failed for order:', orderData.trade_order);
             throw error;
         }
     }
