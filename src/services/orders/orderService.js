@@ -6,24 +6,28 @@
  * - Generating unique trade order numbers
  * - Creating new orders with customer and product details
  * - Managing order transactions with database integration
- * - Generating payment links through POLi payment service
+ * - Generating payment links through payment providers
  * 
  * Key Requirements:
  * - PostgreSQL database connection
  * - JWT for token generation
  * - POLi payment service integration
+ * - Blink payment service integration
  * - Environment variables for JWT secret
  * 
  * Flow:
  * 1. Generate unique trade order number
  * 2. Create order record in database
  * 3. Generate JWT token for order
- * 4. Initiate payment link generation (async)
+ * 4. Initiate parallel payment link generation (async)
+ *    - POLi payment processing
+ *    - Blink payment processing
  */
 
 const pool = require('../../config/database');
 const jwt = require('jsonwebtoken');
 const PoliService = require('../payments/poliService');
+const BlinkService = require('../payments/blinkService');
 
 class OrderService {
     /**
@@ -109,8 +113,6 @@ class OrderService {
                 trade_order
             };
 
-
-
             // Before the return statement, format the timestamp
             const timestamp = orderResult.rows[0].order_creation_time;
             const formattedDate = new Date(timestamp).toLocaleString('en-NZ', {
@@ -122,10 +124,7 @@ class OrderService {
                 minute: '2-digit'
             }).replace(/\//g, '-');
 
-      
-
-
-            // Asynchronously generate payment link
+            // Asynchronously generate payment links
             this.generatePaymentLink(orderWithId);
 
             return { token, trade_order, order_creation_time: formattedDate };
@@ -139,13 +138,34 @@ class OrderService {
     }
 
     /**
-     * Generates payment link through POLi service
+     * Generates payment links through multiple payment providers
      * Runs asynchronously to not block the order creation process
+     * Handles both POLi and Blink payment processing in parallel
      * @param {Object} orderData - Complete order information including record_id
      */
     async generatePaymentLink(orderData) {
         try {
-            await PoliService.generatePaymentLink(orderData);
+            console.log('\n=== Starting Payment Processing ===');
+            console.log('Processing order:', orderData.trade_order);
+            
+            await Promise.all([
+                (async () => {
+                    try {
+                        await PoliService.generatePaymentLink(orderData);
+                    } catch (error) {
+                        console.error('POLi processing failed:', error.message);
+                    }
+                })(),
+                (async () => {
+                    try {
+                        await BlinkService.generatePaymentLink(orderData);
+                    } catch (error) {
+                        console.error('Blink processing failed:', error.message);
+                    }
+                })()
+            ]);
+
+            console.log('=== Payment Processing Complete ===\n');
         } catch (error) {
             console.error('Payment link generation failed:', error);
             // Don't throw - this is background processing

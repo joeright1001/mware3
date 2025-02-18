@@ -1,3 +1,4 @@
+
 /**
  * Payment Service
  * --------------
@@ -9,6 +10,11 @@
  * 
  * Dependencies:
  * - Database pool for queries
+ * 
+ * Updates:
+ * - Modified query to prioritize successful payments
+ * - Added provider information to response
+ * - Maintains backward compatibility with existing features
  */
 
 const pool = require('../../config/database');
@@ -22,11 +28,14 @@ class PaymentService {
                 p.payment_url,
                 p.status,
                 p.created_at,
-                p.error_message
+                p.error_message,
+                p.provider
             FROM payments p
             JOIN orders o ON o.record_id = p.order_record_id
             WHERE o.token = $1
-            ORDER BY p.created_at DESC
+            ORDER BY 
+                p.status = 'success' DESC, -- Prioritize successful payments
+                p.created_at DESC          -- Then by most recent
             LIMIT 1
         `;
 
@@ -46,6 +55,7 @@ class PaymentService {
                 status: result.rows[0].status,
                 payment_url: result.rows[0].payment_url,
                 error_message: result.rows[0].error_message,
+                provider: result.rows[0].provider,
                 checked_at: new Date().toISOString()
             };
 

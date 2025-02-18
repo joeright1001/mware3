@@ -35,6 +35,9 @@ class PoliService {
      */
     async generatePaymentLink(orderData) {
         try {
+            console.log('\n=== POLi Payment Processing ===');
+            console.log('Generating POLi payment link for order:', orderData.trade_order);
+
             // Calculate expiry time 30 minutes from now
             const date = new Date();
             const futureDate = new Date(date.getTime() + (30 * 60 * 1000));
@@ -47,11 +50,11 @@ class PoliService {
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
-                timeZone: 'Pacific/Auckland',  // New Zealand timezone (+13)
+                timeZone: 'Pacific/Auckland',
                 hour12: false
             }).replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})/, '$3-$2-$1T$4:$5:$6+13:00');
 
-            console.log('Generated Expiry Time:', formattedExpiry);
+            console.log('POLi Generated Expiry Time:', formattedExpiry);
 
             // Construct payload for POLi API
             const payload = {
@@ -61,7 +64,7 @@ class PoliService {
                 LinkExpiry: formattedExpiry
             };
 
-            console.log('Payload:', JSON.stringify(payload));
+            console.log('POLi API Payload:', JSON.stringify(payload));
 
             // Make API request to POLi
             const response = await axios.post(
@@ -77,7 +80,7 @@ class PoliService {
 
             // Process response and remove quotes
             const paymentUrl = response.data.replace(/"/g, '');
-            console.log('Response:', response.data);
+            console.log('POLi API Response:', paymentUrl);
 
             // Store successful payment record in database
             await pool.query(
@@ -89,7 +92,12 @@ class PoliService {
             return paymentUrl;
 
         } catch (error) {
-            console.error('POLi API Error:', error.response?.data || error.message);
+            console.error('\n=== POLi API Error ===');
+            console.error('Error details:', {
+                message: error.message,
+                response: error.response?.data,
+                order: orderData.trade_order
+            });
             
             // Store failed payment record in database
             await pool.query(
