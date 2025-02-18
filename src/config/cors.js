@@ -11,7 +11,7 @@
  */
 
 const corsOptions = {
-    origin: "https://gold-buyers-christchurch.webflow.io",
+    origin: process.env.CORS_ORIGIN,
     methods: "GET,POST,OPTIONS",
     allowedHeaders: "Content-Type",
     credentials: true
