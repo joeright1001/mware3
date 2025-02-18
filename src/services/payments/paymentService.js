@@ -9,6 +9,11 @@
  * 
  * Dependencies:
  * - Database pool for queries
+ * 
+ * Updates:
+ * - Modified to return all available payment options
+ * - Added support for multiple payment providers
+ * - Maintains backward compatibility with existing features
  */
 
 const pool = require('../../config/database');
@@ -22,30 +27,43 @@ class PaymentService {
                 p.payment_url,
                 p.status,
                 p.created_at,
-                p.error_message
+                p.error_message,
+                p.provider
             FROM payments p
             JOIN orders o ON o.record_id = p.order_record_id
             WHERE o.token = $1
+            AND p.status = 'success'
             ORDER BY p.created_at DESC
-            LIMIT 1
         `;
 
         try {
             const result = await pool.query(query, [token]);
-            console.log('Payment status result:', result.rows[0]);
+            console.log('Payment status results:', result.rows);
 
-            // If no payment record found
-            if (!result.rows[0]) {
+            // If no payment records found
+            if (!result.rows.length) {
                 return { 
                     status: 'pending',
                     message: 'Payment processing' 
                 };
             }
 
+            // Create an object to hold both payment URLs
+            const paymentUrls = {};
+            
+            // Process all successful payment records
+            result.rows.forEach(row => {
+                if (row.status === 'success' && row.payment_url) {
+                    paymentUrls[row.provider] = {
+                        payment_url: row.payment_url,
+                        provider: row.provider
+                    };
+                }
+            });
+
             return {
-                status: result.rows[0].status,
-                payment_url: result.rows[0].payment_url,
-                error_message: result.rows[0].error_message,
+                status: 'success',
+                payments: paymentUrls,
                 checked_at: new Date().toISOString()
             };
 

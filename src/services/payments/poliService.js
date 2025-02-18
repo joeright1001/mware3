@@ -1,11 +1,43 @@
-// src/services/payments/poliService.js
+/**
+ * POLi Payment Service Integration
+ * 
+ * This service handles the integration with POLi payment gateway for processing payments
+ * in New Zealand. It provides functionality to generate payment links and handle payment
+ * transactions through the POLi API.
+ * 
+ * Key Features:
+ * - Generates payment links with 30-minute expiry
+ * - Handles NZ timezone specific formatting
+ * - Stores payment records in database
+ * - Error handling and logging
+ * 
+ * Flow:
+ * 1. Receives order data
+ * 2. Generates expiry timestamp in NZ timezone
+ * 3. Creates POLi API payload
+ * 4. Makes API request to generate payment link
+ * 5. Stores payment record in database
+ * 
+ * Requirements:
+ * - POLi API credentials in environment variables
+ * - PostgreSQL database connection
+ * - Axios for HTTP requests
+ */
 
 const axios = require('axios');
 const pool = require('../../config/database');
 
 class PoliService {
+    /**
+     * Generates a payment link through POLi API
+     * @param {Object} orderData - Contains order details including total_price and trade_order
+     * @returns {String} Payment URL for redirect
+     */
     async generatePaymentLink(orderData) {
         try {
+            console.log('\n=== POLi Payment Processing ===');
+            console.log('Generating POLi payment link for order:', orderData.trade_order);
+
             // Calculate expiry time 30 minutes from now
             const date = new Date();
             const futureDate = new Date(date.getTime() + (30 * 60 * 1000));
@@ -18,12 +50,13 @@ class PoliService {
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
-                timeZone: 'Pacific/Auckland',  // New Zealand timezone (+13)
+                timeZone: 'Pacific/Auckland',
                 hour12: false
             }).replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})/, '$3-$2-$1T$4:$5:$6+13:00');
 
-            console.log('Generated Expiry Time:', formattedExpiry);
+            console.log('POLi Generated Expiry Time:', formattedExpiry);
 
+            // Construct payload for POLi API
             const payload = {
                 LinkType: "0",
                 Amount: orderData.total_price.toString(),
@@ -31,10 +64,11 @@ class PoliService {
                 LinkExpiry: formattedExpiry
             };
 
-            console.log('Payload:', JSON.stringify(payload));
+            console.log('POLi API Payload:', JSON.stringify(payload));
 
+            // Make API request to POLi
             const response = await axios.post(
-                'https://poliapi.uat3.paywithpoli.com/api/POLiLink/Create',
+                process.env.POLI_API_URL,
                 payload,
                 {
                     headers: {
@@ -44,9 +78,11 @@ class PoliService {
                 }
             );
 
+            // Process response and remove quotes
             const paymentUrl = response.data.replace(/"/g, '');
-            console.log('Response:', response.data);
+            console.log('POLi API Response:', paymentUrl);
 
+            // Store successful payment record in database
             await pool.query(
                 `INSERT INTO payments (order_record_id, provider, status, amount, payment_url) 
                  VALUES ($1, $2, $3, $4, $5)`,
@@ -56,8 +92,14 @@ class PoliService {
             return paymentUrl;
 
         } catch (error) {
-            console.error('POLi API Error:', error.response?.data || error.message);
+            console.error('\n=== POLi API Error ===');
+            console.error('Error details:', {
+                message: error.message,
+                response: error.response?.data,
+                order: orderData.trade_order
+            });
             
+            // Store failed payment record in database
             await pool.query(
                 `INSERT INTO payments (order_record_id, provider, status, amount, error_message) 
                  VALUES ($1, $2, $3, $4, $5)`,
