@@ -6,28 +6,24 @@
  * - Generating unique trade order numbers
  * - Creating new orders with customer and product details
  * - Managing order transactions with database integration
- * - Generating payment links through payment providers
+ * - Generating payment links through multiple payment providers
  * 
  * Key Requirements:
  * - PostgreSQL database connection
  * - JWT for token generation
  * - POLi payment service integration
  * - Blink payment service integration
+ * - BTCPay Server integration for Bitcoin payments
+ * - Stripe payment service integration (New)
  * - Environment variables for JWT secret
- * 
- * Flow:
- * 1. Generate unique trade order number
- * 2. Create order record in database
- * 3. Generate JWT token for order
- * 4. Initiate parallel payment link generation (async)
- *    - POLi payment processing
- *    - Blink payment processing
  */
 
 const pool = require('../../config/database');
 const jwt = require('jsonwebtoken');
 const PoliService = require('../payments/poliService');
 const BlinkService = require('../payments/blinkService');
+const BTCPayService = require('../payments/btcpayService');
+const StripeService = require('../payments/stripeService'); // New import
 
 class OrderService {
     /**
@@ -125,7 +121,7 @@ class OrderService {
             }).replace(/\//g, '-');
 
             // Asynchronously generate payment links
-            this.generatePaymentLink(orderWithId);
+            this.generatePaymentLinks(orderWithId);
 
             return { token, trade_order, order_creation_time: formattedDate };
 
@@ -140,15 +136,16 @@ class OrderService {
     /**
      * Generates payment links through multiple payment providers
      * Runs asynchronously to not block the order creation process
-     * Handles both POLi and Blink payment processing in parallel
+     * Handles POLi, Blink, BTCPay, and Stripe payment processing in parallel
      * @param {Object} orderData - Complete order information including record_id
      */
-    async generatePaymentLink(orderData) {
+    async generatePaymentLinks(orderData) {
         try {
             console.log('\n=== Starting Payment Processing ===');
             console.log('Processing order:', orderData.trade_order);
             
             await Promise.all([
+                // POLi payment processing
                 (async () => {
                     try {
                         await PoliService.generatePaymentLink(orderData);
@@ -156,11 +153,36 @@ class OrderService {
                         console.error('POLi processing failed:', error.message);
                     }
                 })(),
+                // Blink payment processing
                 (async () => {
                     try {
                         await BlinkService.generatePaymentLink(orderData);
                     } catch (error) {
                         console.error('Blink processing failed:', error.message);
+                    }
+                })(),
+                // BTCPay processing
+                (async () => {
+                    try {
+                        if (process.env.BTCPAY_API_KEY && process.env.BTCPAY_STORE_ID) {
+                            await BTCPayService.generatePaymentLink(orderData);
+                        } else {
+                            console.log('BTCPay configuration not found, skipping Bitcoin payment processing');
+                        }
+                    } catch (error) {
+                        console.error('BTCPay processing failed:', error.message);
+                    }
+                })(),
+                // Stripe payment processing (New)
+                (async () => {
+                    try {
+                        if (process.env.STRIPE_SECRET_KEY) {
+                            await StripeService.generatePaymentLink(orderData);
+                        } else {
+                            console.log('Stripe configuration not found, skipping Stripe payment processing');
+                        }
+                    } catch (error) {
+                        console.error('Stripe processing failed:', error.message);
                     }
                 })()
             ]);

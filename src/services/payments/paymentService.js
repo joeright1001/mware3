@@ -11,14 +11,20 @@
  * - Database pool for queries
  * 
  * Updates:
- * - Modified to return all available payment options
- * - Added support for multiple payment providers
- * - Maintains backward compatibility with existing features
+ * - Added Stripe payment support
+ * - Maintains backward compatibility
+ * - Returns all available payment options
  */
 
 const pool = require('../../config/database');
 
 class PaymentService {
+    /**
+     * Gets payment status and available payment URLs by token
+     * Now includes Stripe payment URLs alongside existing providers
+     * @param {string} token - Order token
+     * @returns {Object} Payment status and available payment URLs
+     */
     async getStatusByToken(token) {
         console.log('Checking payment status for token:', token);
 
@@ -28,11 +34,13 @@ class PaymentService {
                 p.status,
                 p.created_at,
                 p.error_message,
-                p.provider
+                p.provider,
+                p.expires_at
             FROM payments p
             JOIN orders o ON o.record_id = p.order_record_id
             WHERE o.token = $1
             AND p.status = 'success'
+            AND (p.expires_at IS NULL OR p.expires_at > NOW())
             ORDER BY p.created_at DESC
         `;
 
@@ -48,7 +56,7 @@ class PaymentService {
                 };
             }
 
-            // Create an object to hold both payment URLs
+            // Create an object to hold payment URLs for all providers
             const paymentUrls = {};
             
             // Process all successful payment records
@@ -56,7 +64,8 @@ class PaymentService {
                 if (row.status === 'success' && row.payment_url) {
                     paymentUrls[row.provider] = {
                         payment_url: row.payment_url,
-                        provider: row.provider
+                        provider: row.provider,
+                        expires_at: row.expires_at
                     };
                 }
             });
