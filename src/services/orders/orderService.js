@@ -14,7 +14,8 @@
  * - POLi payment service integration
  * - Blink payment service integration
  * - BTCPay Server integration for Bitcoin payments
- * - Stripe payment service integration (New)
+ * - Stripe payment service integration
+ * - Alipay payment service integration
  * - Environment variables for JWT secret
  */
 
@@ -23,7 +24,8 @@ const jwt = require('jsonwebtoken');
 const PoliService = require('../payments/poliService');
 const BlinkService = require('../payments/blinkService');
 const BTCPayService = require('../payments/btcpayService');
-const StripeService = require('../payments/stripeService'); // New import
+const StripeService = require('../payments/stripeService');
+const AlipayService = require('../payments/alipayService');
 
 class OrderService {
     /**
@@ -109,7 +111,7 @@ class OrderService {
                 trade_order
             };
 
-            // Before the return statement, format the timestamp
+            // Format timestamp for New Zealand timezone
             const timestamp = orderResult.rows[0].order_creation_time;
             const formattedDate = new Date(timestamp).toLocaleString('en-NZ', {
                 timeZone: 'Pacific/Auckland',
@@ -136,7 +138,7 @@ class OrderService {
     /**
      * Generates payment links through multiple payment providers
      * Runs asynchronously to not block the order creation process
-     * Handles POLi, Blink, BTCPay, and Stripe payment processing in parallel
+     * Handles all payment processing in parallel
      * @param {Object} orderData - Complete order information including record_id
      */
     async generatePaymentLinks(orderData) {
@@ -173,7 +175,7 @@ class OrderService {
                         console.error('BTCPay processing failed:', error.message);
                     }
                 })(),
-                // Stripe payment processing (New)
+                // Stripe payment processing
                 (async () => {
                     try {
                         if (process.env.STRIPE_SECRET_KEY) {
@@ -183,6 +185,18 @@ class OrderService {
                         }
                     } catch (error) {
                         console.error('Stripe processing failed:', error.message);
+                    }
+                })(),
+                // Alipay processing
+                (async () => {
+                    try {
+                        if (process.env.STRIPE_ALIPAY_FEE) {
+                            await AlipayService.generatePaymentLink(orderData);
+                        } else {
+                            console.log('Alipay configuration not found, skipping Alipay payment processing');
+                        }
+                    } catch (error) {
+                        console.error('Alipay processing failed:', error.message);
                     }
                 })()
             ]);

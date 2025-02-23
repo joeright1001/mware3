@@ -10,10 +10,12 @@
  * Dependencies:
  * - Database pool for queries
  * 
- * Updates:
- * - Added Stripe payment support
- * - Maintains backward compatibility
- * - Returns all available payment options
+ * Supported Payment Methods:
+ * - POLi Payments
+ * - Blink Payments
+ * - BTCPay (Bitcoin)
+ * - Stripe (Credit Card)
+ * - Alipay (via Stripe)
  */
 
 const pool = require('../../config/database');
@@ -21,7 +23,7 @@ const pool = require('../../config/database');
 class PaymentService {
     /**
      * Gets payment status and available payment URLs by token
-     * Now includes Stripe payment URLs alongside existing providers
+     * Includes all available payment methods for the order
      * @param {string} token - Order token
      * @returns {Object} Payment status and available payment URLs
      */
@@ -80,6 +82,26 @@ class PaymentService {
             console.error('Database error in getStatusByToken:', error);
             throw new Error('Failed to check payment status');
         }
+    }
+
+    /**
+     * Utility method to format expiry timestamp
+     * @private
+     * @param {Date} date - Expiry date
+     * @returns {string} Formatted timestamp
+     */
+    _formatExpiryTime(date) {
+        return date.toISOString();
+    }
+
+    /**
+     * Checks if a payment URL has expired
+     * @private
+     * @param {Date} expiryDate - Payment URL expiry date
+     * @returns {boolean} True if expired
+     */
+    _isExpired(expiryDate) {
+        return new Date() > new Date(expiryDate);
     }
 }
 
