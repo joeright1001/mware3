@@ -10,22 +10,13 @@
  * - BLINK_API_BASE_URL: Base URL for Blink API (e.g., https://sandbox.debit.blinkpay.co.nz/payments/v1)
  * - BLINK_AUTH_URL: Authentication endpoint (e.g., https://sandbox.debit.blinkpay.co.nz/oauth2/token)
  * - BLINK_REDIRECT_URL: Redirect URL after payment (e.g., https://your-domain.com)
- * 
- * API Documentation Reference:
- * - Quick Payment Creation
- * - Authentication Flow
- * - PCR (Particulars, Code, Reference) Requirements
- * 
- * Error Handling:
- * - Authentication failures
- * - API timeouts
- * - Invalid responses
- * - Database errors
+ * - BLINK_PAYMENT_EXPIRY_MINUTES: Minutes until payment link expires (default: 30)
  */
 
 const axios = require('axios');
 const pool = require('../../config/database');
-const crypto = require('crypto'); // For generating UUIDs
+const crypto = require('crypto');
+const expiryService = require('../expiry/expiryService');
 
 class BlinkService {
     constructor() {
@@ -40,13 +31,17 @@ class BlinkService {
         this.accessToken = null;
         this.tokenExpiry = null;
 
+        // Initialize expiry service
+        this.expiryService = expiryService;
+
         // Configuration validation
         const requiredEnvVars = [
             'BLINK_CLIENT_ID',
             'BLINK_CLIENT_SECRET',
             'BLINK_API_BASE_URL',
             'BLINK_AUTH_URL',
-            'BLINK_REDIRECT_URL'
+            'BLINK_REDIRECT_URL',
+            'BLINK_PAYMENT_EXPIRY_MINUTES'
         ];
 
         const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
@@ -56,11 +51,7 @@ class BlinkService {
         }
     }
 
-    /**
-     * Obtains a new access token using client credentials
-     * @returns {Promise<string>} The access token
-     * @throws {Error} If token acquisition fails
-     */
+    // [Previous methods remain exactly the same: getAccessToken, ensureValidToken]
     async getAccessToken() {
         try {
             console.log('\n=== Blink Authentication ===');
@@ -94,11 +85,6 @@ class BlinkService {
         }
     }
 
-    /**
-     * Ensures a valid token is available
-     * Refreshes token if expired or close to expiry
-     * @returns {Promise<string>} Valid access token
-     */
     async ensureValidToken() {
         if (!this.accessToken || !this.tokenExpiry || Date.now() >= this.tokenExpiry - 60000) {
             await this.getAccessToken();
@@ -106,26 +92,17 @@ class BlinkService {
         return this.accessToken;
     }
 
-    /**
-     * Generates a payment link for an order
-     * @param {Object} orderData Order details including amount and reference
-     * @returns {Promise<string>} Payment redirect URL
-     * @throws {Error} If payment link generation fails
-     */
     async generatePaymentLink(orderData) {
         try {
             console.log('\n=== Blink Payment Processing ===');
             console.log('Generating Blink payment link for order:', orderData.trade_order);
 
-            // Ensure valid token
             const token = await this.ensureValidToken();
 
-            // Format amount to 2 decimal places
             const formattedAmount = typeof orderData.total_price === 'string' 
                 ? parseFloat(orderData.total_price).toFixed(2)
                 : orderData.total_price.toFixed(2);
 
-            // Construct payload according to API specifications
             const payload = {
                 flow: {
                     detail: {
@@ -133,12 +110,11 @@ class BlinkService {
                         redirect_uri: this.REDIRECT_URL,
                         flow_hint: {
                             type: "redirect",
-                            bank: "PNZ" // Pay NZ as default bank
+                            bank: "PNZ"
                         }
                     }
                 },
                 pcr: {
-                    // Ensure PCR fields meet character requirements
                     particulars: orderData.trade_order.substring(0, 12).replace(/[^a-zA-Z0-9- &#?:_\/,.']/g, ''),
                     code: orderData.trade_order.substring(0, 12).replace(/[^a-zA-Z0-9- &#?:_\/,.']/g, ''),
                     reference: orderData.record_id.toString().substring(0, 12)
@@ -151,7 +127,6 @@ class BlinkService {
 
             console.log('Blink API Payload:', JSON.stringify(payload));
 
-            // Generate required header values
             const headers = {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -161,7 +136,6 @@ class BlinkService {
                 'idempotency-key': crypto.randomUUID()
             };
 
-            // Make API request
             const response = await axios.post(
                 `${this.BASE_URL}/quick-payments`,
                 payload,
@@ -173,13 +147,26 @@ class BlinkService {
 
             console.log('Blink API Response:', response.data);
 
-            // Handle successful response
             if (response.data && response.data.redirect_uri) {
-                // Store payment record in database
                 await pool.query(
-                    `INSERT INTO payments (order_record_id, provider, status, amount, payment_url) 
-                     VALUES ($1, $2, $3, $4, $5)`,
-                    [orderData.record_id, 'BLINK', 'success', formattedAmount, response.data.redirect_uri]
+                    `INSERT INTO payments (
+                        order_record_id, provider, status, amount, 
+                        payment_url, payid, expires_at
+                    ) VALUES ($1, $2, $3, $4, $5, $6, NOW() + interval '${process.env.BLINK_PAYMENT_EXPIRY_MINUTES} minutes')`,
+                    [
+                        orderData.record_id, 
+                        'BLINK', 
+                        'success', 
+                        formattedAmount, 
+                        response.data.redirect_uri,
+                        response.data.quick_payment_id
+                    ]
+                );
+
+                // Schedule payment expiry
+                await this.expiryService.scheduleExpiry(
+                    response.data.quick_payment_id,
+                    'BLINK'
                 );
 
                 return response.data.redirect_uri;
@@ -197,7 +184,6 @@ class BlinkService {
                 order: orderData.trade_order
             });
             
-            // Store failed payment attempt in database
             await pool.query(
                 `INSERT INTO payments (order_record_id, provider, status, amount, error_message) 
                  VALUES ($1, $2, $3, $4, $5)`,
