@@ -150,7 +150,7 @@ class BlinkService {
             if (response.data && response.data.redirect_uri) {
                 await pool.query(
                     `INSERT INTO payments (
-                        order_record_id, provider, status, amount, 
+                        order_record_id, provider, status_url, amount, 
                         payment_url, payid, expires_at
                     ) VALUES ($1, $2, $3, $4, $5, $6, NOW() + interval '${process.env.BLINK_PAYMENT_EXPIRY_MINUTES} minutes')`,
                     [
@@ -185,7 +185,7 @@ class BlinkService {
             });
             
             await pool.query(
-                `INSERT INTO payments (order_record_id, provider, status, amount, error_message) 
+                `INSERT INTO payments (order_record_id, provider, status_url, amount, message_url) 
                  VALUES ($1, $2, $3, $4, $5)`,
                 [orderData.record_id, 'BLINK', 'failed', orderData.total_price, 
                  error.response?.data?.detail || error.message]

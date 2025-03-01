@@ -24,6 +24,7 @@
  * - Axios for HTTP requests
  */
 
+
 const axios = require('axios');
 const pool = require('../../config/database');
 
@@ -84,7 +85,7 @@ class PoliService {
 
             // Store successful payment record in database
             await pool.query(
-                `INSERT INTO payments (order_record_id, provider, status, amount, payment_url) 
+                `INSERT INTO payments (order_record_id, provider, status_url, amount, payment_url) 
                  VALUES ($1, $2, $3, $4, $5)`,
                 [orderData.record_id, 'POLi', 'success', orderData.total_price, paymentUrl]
             );
@@ -101,7 +102,7 @@ class PoliService {
             
             // Store failed payment record in database
             await pool.query(
-                `INSERT INTO payments (order_record_id, provider, status, amount, error_message) 
+                `INSERT INTO payments (order_record_id, provider, status_url, amount, message_url) 
                  VALUES ($1, $2, $3, $4, $5)`,
                 [orderData.record_id, 'POLi', 'failed', orderData.total_price, 
                  error.response?.data?.ErrorMessage || error.message]
@@ -112,3 +113,6 @@ class PoliService {
 }
 
 module.exports = new PoliService();
+
+
+

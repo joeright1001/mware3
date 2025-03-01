@@ -33,15 +33,15 @@ class PaymentService {
         const query = `
             SELECT 
                 p.payment_url,
-                p.status,
+                p.status_url,
                 p.created_at,
-                p.error_message,
+                p.message_url,
                 p.provider,
                 p.expires_at
             FROM payments p
             JOIN orders o ON o.record_id = p.order_record_id
             WHERE o.token = $1
-            AND p.status = 'success'
+            AND p.status_url = 'success'
             AND (p.expires_at IS NULL OR p.expires_at > NOW())
             ORDER BY p.created_at DESC
         `;
@@ -63,7 +63,7 @@ class PaymentService {
             
             // Process all successful payment records
             result.rows.forEach(row => {
-                if (row.status === 'success' && row.payment_url) {
+                if (row.status_url === 'success' && row.payment_url) {
                     paymentUrls[row.provider] = {
                         payment_url: row.payment_url,
                         provider: row.provider,

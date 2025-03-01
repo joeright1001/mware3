@@ -68,7 +68,7 @@ class BTCPayService {
                 // Store payment record
                 await pool.query(
                     `INSERT INTO payments (
-                        order_record_id, provider, status, amount, 
+                        order_record_id, provider, status_url, amount, 
                         payment_url, payid
                     ) VALUES ($1, $2, $3, $4, $5, $6)`,
                     [
@@ -98,7 +98,7 @@ class BTCPayService {
             // Store failed payment record
             await pool.query(
                 `INSERT INTO payments (
-                    order_record_id, provider, status, amount, error_message
+                    order_record_id, provider, status_url, amount, message_url
                 ) VALUES ($1, $2, $3, $4, $5)`,
                 [
                     orderData.record_id,
