@@ -1,18 +1,74 @@
---ALTER TABLE payments ADD COLUMN payid VARCHAR(255);
---ALTER TABLE payments ADD COLUMN expires_at TIMESTAMP WITH TIME ZONE;
+-- Drop existing tables if they exist (optional, for clean start)
+DROP TABLE IF EXISTS public.payments;
+DROP TABLE IF EXISTS public.pay_status;
+DROP TABLE IF EXISTS public.expiry;
 
+-- Create payments table
+CREATE TABLE public.payments (
+    record_id serial PRIMARY KEY,
+    order_record_id integer,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    provider character varying(50) NOT NULL,
+    amount numeric(10,2) NOT NULL,
+    status_url text,
+    message_url text,
+    payment_url text,
+    status_pay character varying(50),
+    message_pay text,
+    payid character varying(255),
+    expires_at timestamp with time zone,
+    status_expiry text
+);
 
--- Rename the status column to status_url and keep its current type
-ALTER TABLE payments
-RENAME COLUMN status TO status_url;
+-- Create pay_status table
+CREATE TABLE public.pay_status (
+    record_id serial PRIMARY KEY,
+    payments_record_id integer NOT NULL,
+    date_time timestamp with time zone NOT NULL,
+    status text NOT NULL,
+    message text,
+    FOREIGN KEY (payments_record_id) REFERENCES public.payments (record_id)
+);
 
--- Add new columns: fees, shipping, bill_total, and status_pay with appropriate types and default values
-ALTER TABLE payments
-ADD COLUMN fees numeric(10,2),
-ADD COLUMN shipping numeric(10,2),
-ADD COLUMN bill_total numeric(10,2),
-ADD COLUMN status_pay character varying(50) DEFAULT 'open';
+-- Create expiry table
+CREATE TABLE public.expiry (
+    record_id serial PRIMARY KEY,
+    payments_record_id integer NOT NULL,
+    date_time timestamp with time zone NOT NULL,
+    status text NOT NULL,
+    message text,
+    FOREIGN KEY (payments_record_id) REFERENCES public.payments (record_id)
+);
 
--- Update the bill_total column to have the same value as the amount column for existing rows
-UPDATE payments
-SET bill_total = amount;
+-- Function to update payments table based on latest status and message in pay_status
+CREATE OR REPLACE FUNCTION update_pay_status() RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE public.payments
+    SET status_pay = NEW.status,
+        message_pay = NEW.message
+    WHERE record_id = NEW.payments_record_id;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to call the update_pay_status function after insert or update on pay_status
+CREATE TRIGGER trg_update_pay_status
+AFTER INSERT OR UPDATE ON public.pay_status
+FOR EACH ROW
+EXECUTE FUNCTION update_pay_status();
+
+-- Function to update payments table based on latest status and message in expiry
+CREATE OR REPLACE FUNCTION update_expiry_status() RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE public.payments
+    SET status_expiry = NEW.status
+    WHERE record_id = NEW.payments_record_id;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to call the update_expiry_status function after insert or update on expiry
+CREATE TRIGGER trg_update_expiry_status
+AFTER INSERT OR UPDATE ON public.expiry
+FOR EACH ROW
+EXECUTE FUNCTION update_expiry_status();

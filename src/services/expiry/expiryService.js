@@ -1,3 +1,8 @@
+/*
+----------------------------------------------
+commented out service. empty service below to not start the expiry checker 
+---------------------------------------------------
+
 const pool = require('../../config/database');
 const expiryQueue = require('./expiryQueue');
 const blinkExpiry = require('./providers/blinkExpiry');
@@ -119,6 +124,98 @@ class PaymentExpiryService {
         );
 
         console.log(`Expiry scheduled for ${provider} payment ${payid}`);
+    }
+}
+
+module.exports = new PaymentExpiryService();
+
+
+*/
+
+
+const pool = require('../../config/database');
+const blinkExpiry = require('./providers/blinkExpiry');
+const blinkService = require('../payments/blinkService'); // Changed to use instance
+
+class PaymentExpiryService {
+    constructor() {
+        this.setupQueueProcessor();
+    }
+
+    setupQueueProcessor() {
+        // No processing setup required as we are disabling the expiry queue
+    }
+
+    async updatePaymentStatus(payid, status, message) {
+        const client = await pool.connect();
+        try {
+            await client.query(
+                `UPDATE payments 
+                 SET status = $1, 
+                     error_message = $2
+                 WHERE payid = $3`,
+                [status, message, payid]
+            );
+        } finally {
+            client.release();
+        }
+    }
+
+    async processExpiry(payid, provider) {
+        const client = await pool.connect();
+        
+        try {
+            await client.query('BEGIN');
+
+            // Get payment details
+            const { rows } = await client.query(
+                'SELECT * FROM payments WHERE payid = $1 AND provider = $2',
+                [payid, provider]
+            );
+
+            if (!rows.length) {
+                throw new Error(`Payment ${payid} not found`);
+            }
+
+            const payment = rows[0];
+
+            // Only process if payment is still active
+            if (payment.status === 'success') {
+                // Handle provider-specific revocation
+                switch (provider) {
+                    case 'BLINK':
+                        const token = await blinkService.ensureValidToken();
+                        await blinkExpiry.revokePayment(payid, token);
+                        break;
+                    default:
+                        throw new Error(`Unsupported payment provider: ${provider}`);
+                }
+
+                // Update payment status
+                await client.query(
+                    `UPDATE payments 
+                     SET status = 'expired', 
+                         error_message = 'Payment link expired'
+                     WHERE payid = $1`,
+                    [payid]
+                );
+
+                console.log(`Successfully expired ${provider} payment ${payid}`);
+            } else {
+                console.log(`Payment ${payid} already in ${payment.status} status, skipping expiry`);
+            }
+
+            await client.query('COMMIT');
+        } catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+
+    async scheduleExpiry(payid, provider) {
+        // This method is intentionally left blank to disable expiry scheduling
     }
 }
 
