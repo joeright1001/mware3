@@ -10,8 +10,11 @@
  */
 
 const Queue = require('bull');
-// Import the provider directly to avoid circular dependency
+// Import the providers directly to avoid circular dependency
 const poliPaymentStatus = require('./providers/poliPaymentStatus');
+const stripePaymentStatus = require('./providers/stripePaymentStatus');
+const alipayPaymentStatus = require('./providers/alipayPaymentStatus');
+const btcpayPaymentStatus = require('./providers/btcpayPaymentStatus');
 const pool = require('../../../config/database');
 
 // Create the payment status check queue
@@ -41,25 +44,38 @@ paymentStatusQueue.process(async (job) => {
     
     try {
         // Use provider directly to avoid circular dependency
-        let result;
+        let statusResult;
         
         if (provider === 'POLi') {
-            // Check payment status using the provider directly
-            const statusResult = await poliPaymentStatus.checkStatus(payid);
-            
-            // Log the status check to database
-            await logStatusCheck(paymentId, statusResult.status, statusResult.message);
-            
-            result = {
-                paymentId,
-                payid,
-                provider,
-                status: statusResult.status,
-                message: statusResult.message
-            };
-        } else {
+            // Check payment status using the POLi provider
+            statusResult = await poliPaymentStatus.checkStatus(payid);
+        } 
+        else if (provider === 'STRIPE') {
+            // Check payment status using the Stripe provider
+            statusResult = await stripePaymentStatus.checkStatus(payid);
+        }
+        else if (provider === 'ALIPAY') {
+            // Check payment status using the Alipay provider
+            statusResult = await alipayPaymentStatus.checkStatus(payid);
+        }
+        else if (provider === 'BTCPAY') {
+            // Check payment status using the BTCPay provider
+            statusResult = await btcpayPaymentStatus.checkStatus(payid);
+        }
+        else {
             throw new Error(`Unsupported provider: ${provider}`);
         }
+        
+        // Log the status check to database
+        await logStatusCheck(paymentId, statusResult.status, statusResult.message);
+        
+        const result = {
+            paymentId,
+            payid,
+            provider,
+            status: statusResult.status,
+            message: statusResult.message
+        };
         
         console.log(`Completed ${checkTime} status check for ${provider} payment ${payid}`);
         return result;
@@ -174,8 +190,13 @@ async function cleanupOldRepeatingJobs() {
     }
 }
 
-// Run cleanup on startup
-cleanupOldRepeatingJobs();
+// Only run cleanup if environment variable isn't set to false
+if (process.env.CLEANUP_PAYMENT_STATUS_QUEUE !== 'false') {
+    cleanupOldRepeatingJobs();
+    console.log('Old repeatable jobs cleanup completed');
+} else {
+    console.log('Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)');
+}
 
 module.exports = {
     paymentStatusQueue,

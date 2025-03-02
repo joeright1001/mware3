@@ -11,13 +11,19 @@
 
 const pool = require('../../../config/database');
 const poliPaymentStatus = require('./providers/poliPaymentStatus');
+const stripePaymentStatus = require('./providers/stripePaymentStatus');
+const alipayPaymentStatus = require('./providers/alipayPaymentStatus');
+const btcpayPaymentStatus = require('./providers/btcpayPaymentStatus');
+
 
 class PaymentStatusService {
     constructor() {
         // Map of payment providers to their status checking implementations
         this.providers = {
-            'POLi': poliPaymentStatus
-            // Add more providers as they are implemented
+            'POLi': poliPaymentStatus,
+            'STRIPE': stripePaymentStatus,
+            'ALIPAY': alipayPaymentStatus,
+            'BTCPAY': btcpayPaymentStatus
         };
     }
     

@@ -61,8 +61,8 @@ if [ -f "/workspaces/mware3/.env" ]; then
     echo "----------------------------------------" >> "$OUTPUT"
 fi
 
-# Then add only .js files from /src
-find /workspaces/mware3/src -name "*.js" -type f -exec sh -c '
+# Add .js and .ejs files from /src
+find /workspaces/mware3/src \( -name "*.js" -o -name "*.ejs" \) -type f -exec sh -c '
     echo -e "\n=== File: {}" >> '$OUTPUT'
     cat {} >> '$OUTPUT'
     echo "----------------------------------------" >> '$OUTPUT'

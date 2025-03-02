@@ -9,23 +9,20 @@
  * 2. CORS configuration
  * 3. Route registration
  * 4. Server initialization
+ * 5. Admin dashboard
  * 
  * Dependencies:
  * - dotenv for environment variables
  * - express for web server
  * - cors for Cross-Origin Resource Sharing
- * 
- * IMPORTANT CONFIGURATIONS:
- * - PORT in .env file (defaults to 3000)
- * - Ensure all required environment variables are set in .env:
- *   - DATABASE_URL
- *   - JWT_SECRET
- *   - PORT (optional)
+ * - ejs for templating
  */
 
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const path = require('path');
+const rateLimit = require('express-rate-limit');
 
 // Import configurations
 const corsOptions = require('./src/config/cors');
@@ -33,6 +30,7 @@ const corsOptions = require('./src/config/cors');
 // Import routes
 const orderRoutes = require('./src/routes/public/orders');
 const paymentRoutes = require('./src/routes/public/payments');
+const adminRoutes = require('./src/routes/admin/dashboard');
 
 // Import payment status queue
 const { paymentStatusQueue } = require('./src/services/payments/paystatus/paymentStatusQueue');
@@ -42,20 +40,18 @@ console.log('Environment:', {
     PORT: process.env.PORT,
     DATABASE_URL: process.env.DATABASE_URL ? 'Set' : 'Not Set',
     JWT_SECRET: process.env.JWT_SECRET ? 'Set' : 'Not Set',
-    POLI_AUTH_CODE: process.env.POLI_AUTH_CODE ? 'Set' : 'Not Set'
-});
-
-// Debug: Log configurations
-console.log('Loaded configurations:', {
-    corsOptions,
-    orderRoutes: typeof orderRoutes,
-    paymentRoutes: typeof paymentRoutes
+    POLI_AUTH_CODE: process.env.POLI_AUTH_CODE ? 'Set' : 'Not Set',
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ? 'Set' : 'Not Set'
 });
 
 const app = express();
 
-// Trust proxy setting for rate limiting
+// Trust proxy setting for rate limiting (important for Railway)
 app.set('trust proxy', 1);
+
+// Set up templating engine for admin dashboard
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // Middleware
 app.use(cors(corsOptions));
@@ -63,9 +59,17 @@ app.use(express.json());
 
 console.log('Middleware initialized');
 
+// Admin route rate limiting
+const adminLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later'
+});
+
 // Routes
-app.use("/", orderRoutes);      // Base URL for order routes
-app.use("/api", paymentRoutes); // Payment status endpoint
+app.use("/", orderRoutes);          // Base URL for order routes
+app.use("/api", paymentRoutes);     // Payment status endpoint
+app.use('/admin', adminLimiter, adminRoutes); // Admin dashboard routes
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -107,6 +111,37 @@ function gracefulShutdown() {
         process.exit(1);
     }, 10000);
 }
+
+/**
+// Add this to your server.js file temporarily for testing
+app.get('/test-db', async (req, res) => {
+    try {
+      const pool = require('./src/config/database');
+      const result = await pool.query('SELECT COUNT(*) FROM payments');
+      res.json({ 
+        success: true, 
+        count: result.rows[0].count,
+        message: 'Database connection successful'
+      });
+    } catch (error) {
+      console.error('Database test error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message,
+        stack: error.stack
+      });
+    }
+  });
+
+*/
+
+
+// const path = require('path');
+
+// Set up templating engine for admin dashboard
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 
 // Handle shutdown signals
 process.on('SIGTERM', gracefulShutdown);

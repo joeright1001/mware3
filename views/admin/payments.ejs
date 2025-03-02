@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payments Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .table-responsive { overflow-x: auto; }
+    .status-completed { color: green; font-weight: bold; }
+    .status-pending { color: orange; }
+    .status-failed, .status-error { color: red; }
+    .filter-form { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Payments Dashboard</h1>
+    
+    <!-- Filter Form -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <form class="filter-form" method="GET">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Search</label>
+              <input type="text" class="form-control" name="search" value="<%= search %>" placeholder="Search by order or email">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Status</label>
+              <select class="form-select" name="status">
+                <option value="">All Statuses</option>
+                <option value="completed" <% if (status === 'completed') { %>selected<% } %>>Completed</option>
+                <option value="pending" <% if (status === 'pending') { %>selected<% } %>>Pending</option>
+                <option value="failed" <% if (status === 'failed') { %>selected<% } %>>Failed</option>
+                <option value="error" <% if (status === 'error') { %>selected<% } %>>Error</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Provider</label>
+              <select class="form-select" name="provider">
+                <option value="">All Providers</option>
+                <option value="POLi" <% if (provider === 'POLi') { %>selected<% } %>>POLi</option>
+                <option value="STRIPE" <% if (provider === 'STRIPE') { %>selected<% } %>>Stripe</option>
+                <option value="BLINK" <% if (provider === 'BLINK') { %>selected<% } %>>Blink</option>
+                <option value="BTCPAY" <% if (provider === 'BTCPAY') { %>selected<% } %>>BTCPay</option>
+                <option value="ALIPAY" <% if (provider === 'ALIPAY') { %>selected<% } %>>Alipay</option>
+              </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Results Table -->
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Provider</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (payments && payments.length > 0) { %>
+                <% payments.forEach(payment => { %>
+                  <tr>
+                    <td><%= payment.record_id %></td>
+                    <td><%= new Date(payment.created_at).toLocaleString() %></td>
+                    <td><a href="#" title="View Order Details"><%= payment.trade_order || 'N/A' %></a></td>
+                    <td><%= payment.first_name_order || 'N/A' %> <small><%= payment.email_order || '' %></small></td>
+                    <td><%= payment.provider %></td>
+                    <td>$<%= parseFloat(payment.amount).toFixed(2) %></td>
+                    <td class="status-<%= payment.status_pay || 'pending' %>"><%= payment.status_pay || 'pending' %></td>
+                    <td>
+                      <% if (payment.payment_url) { %>
+                        <a href="<%= payment.payment_url %>" target="_blank" class="btn btn-sm btn-outline-primary">View</a>
+                      <% } %>
+                      <button class="btn btn-sm btn-outline-secondary" 
+                              onclick="checkStatus(<%= payment.record_id %>)">Check Status</button>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr>
+                  <td colspan="8" class="text-center">No payments found</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div>
+            Showing <%= payments.length %> of <%= totalPayments %> payments
+          </div>
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+              <% if (page > 1) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= page-1 %>&limit=<%= limit %>&search=<%= search %>&status=<%= status %>&provider=<%= provider %>">Previous</a>
+                </li>
+              <% } %>
+              
+              <% for(let i = Math.max(1, page-2); i <= Math.min(totalPages, page+2); i++) { %>
+                <li class="page-item <%= i === page ? 'active' : '' %>">
+                  <a class="page-link" href="?page=<%= i %>&limit=<%= limit %>&search=<%= search %>&status=<%= status %>&provider=<%= provider %>"><%= i %></a>
+                </li>
+              <% } %>
+              
+              <% if (page < totalPages) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= page+1 %>&limit=<%= limit %>&search=<%= search %>&status=<%= status %>&provider=<%= provider %>">Next</a>
+                </li>
+              <% } %>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function checkStatus(paymentId) {
+      fetch(`/api/check-payment-status/${paymentId}`)
+        .then(response => response.json())
+        .then(data => {
+          alert(`Status: ${data.status}\nMessage: ${data.message || 'No message'}`);
+          location.reload();
+        })
+        .catch(error => {
+          alert('Error checking status: ' + error);
+        });
+    }
+  </script>
+</body>
+</html>
