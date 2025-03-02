@@ -27,14 +27,17 @@ DB_PASS="Fish5590@"
 if command -v psql &> /dev/null; then
     echo "Attempting to connect to database..." >> "$OUTPUT"
     
-    # Directly describe each table we know exists
-    echo -e "\n=== Table: orders ===" >> "$OUTPUT"
-    PGPASSWORD="$DB_PASS" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "\d+ orders" >> "$OUTPUT"
-    echo "----------------------------------------" >> "$OUTPUT"
+    # Retrieve all table names from the database
+    TABLES=$(PGPASSWORD="$DB_PASS" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -t -c "SELECT tablename FROM pg_tables WHERE schemaname = 'public';")
 
-    echo -e "\n=== Table: payments ===" >> "$OUTPUT"
-    PGPASSWORD="$DB_PASS" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "\d+ payments" >> "$OUTPUT"
-    echo "----------------------------------------" >> "$OUTPUT"
+    # Loop through each table and describe it
+    for TABLE in $TABLES; do
+        if [ -n "$TABLE" ]; then
+            echo -e "\n=== Table: $TABLE ===" >> "$OUTPUT"
+            PGPASSWORD="$DB_PASS" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "\d+ $TABLE" >> "$OUTPUT"
+            echo "----------------------------------------" >> "$OUTPUT"
+        fi
+    done
 else
     echo "PostgreSQL client tools not found. Schema dump skipped." >> "$OUTPUT"
 fi
