@@ -32,7 +32,10 @@ const corsOptions = require('./src/config/cors');
 
 // Import routes
 const orderRoutes = require('./src/routes/public/orders');
-const paymentRoutes = require('./src/routes/public/payments'); // Add this line
+const paymentRoutes = require('./src/routes/public/payments');
+
+// Import payment status queue
+const { paymentStatusQueue } = require('./src/services/payments/paystatus/paymentStatusQueue');
 
 // Debug: Log environment variables
 console.log('Environment:', {
@@ -76,13 +79,25 @@ const PORT = process.env.PORT || 3000;
 // CRITICAL: Create server this way to handle shutdown
 const server = app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`💰 Payment status checking service initialized`);
 });
 
 // Graceful Shutdown Handler
 function gracefulShutdown() {
     console.log('Received kill signal, shutting down gracefully');
-    server.close(() => {
+    
+    // First close the server
+    server.close(async () => {
         console.log('Closed out remaining connections');
+        
+        // Then close the payment status queue
+        try {
+            await paymentStatusQueue.close();
+            console.log('Payment status queue closed');
+        } catch (err) {
+            console.error('Error closing payment status queue:', err);
+        }
+        
         process.exit(0);
     });
     
