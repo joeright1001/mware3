@@ -2522,3 +2522,14 @@
 {"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 00:17:36"}
 {"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 00:17:36"}
 {"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 00:17:36"}
+{"level":"info","message":"Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)","service":"payment-server","timestamp":"2025-03-04 05:48:10"}
+{"ADMIN_PASSWORD":"Set","DATABASE_URL":"Set","JWT_SECRET":"Set","POLI_AUTH_CODE":"Set","PORT":"Not Set","REDIS_URL":"Set","component":"system","level":"info","message":"Environment variables loaded","service":"payment-server","timestamp":"2025-03-04 05:48:10"}
+{"component":"redis","level":"info","message":"Redis URL format check: protocol=redis:, hostname=localhost, port=6379","service":"payment-server","timestamp":"2025-03-04 05:48:10"}
+{"component":"redis","level":"info","message":"Payment status queue module loaded, testing connection...","service":"payment-server","timestamp":"2025-03-04 05:48:10"}
+{"component":"system","level":"info","message":"Middleware initialized","service":"payment-server","timestamp":"2025-03-04 05:48:10"}
+{"component":"system","level":"info","message":"Server started on port 3000","service":"payment-server","timestamp":"2025-03-04 05:48:10"}
+{"component":"payments","level":"info","message":"Payment status checking service initialized","service":"payment-server","timestamp":"2025-03-04 05:48:10"}
+{"component":"redis","level":"info","message":"Redis connection test: PONG","service":"payment-server","timestamp":"2025-03-04 05:48:10"}
+{"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 05:48:15"}
+{"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 05:48:15"}
+{"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 05:48:15"}

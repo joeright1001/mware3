@@ -9,6 +9,7 @@ const path = require('path');
 const rateLimit = require('express-rate-limit');
 const winston = require('winston');
 const fs = require('fs');
+// No need for separate Redis client, Bull uses ioredis internally
 
 // Create directory for logs if it doesn't exist
 if (!fs.existsSync('logs')) {
@@ -85,26 +86,63 @@ const orderLogger = logger.child({ component: 'orders' });
 const paymentLogger = logger.child({ component: 'payments' });
 const adminLogger = logger.child({ component: 'admin' });
 const systemLogger = logger.child({ component: 'system' });
+const redisLogger = logger.child({ component: 'redis' });
 
 // Import configurations
 const corsOptions = require('./src/config/cors');
+const pool = require('./src/config/database');
 
 // Import routes
 const orderRoutes = require('./src/routes/public/orders');
 const paymentRoutes = require('./src/routes/public/payments');
 const adminRoutes = require('./src/routes/admin/dashboard');
 
-// Import payment status queue
-const { paymentStatusQueue } = require('./src/services/payments/paystatus/paymentStatusQueue');
-
 // Debug: Log environment variables
 systemLogger.info('Environment variables loaded', {
     PORT: process.env.PORT ? 'Set' : 'Not Set',
     DATABASE_URL: process.env.DATABASE_URL ? 'Set' : 'Not Set',
+    REDIS_URL: process.env.REDIS_URL ? 'Set' : 'Not Set',
     JWT_SECRET: process.env.JWT_SECRET ? 'Set' : 'Not Set',
     POLI_AUTH_CODE: process.env.POLI_AUTH_CODE ? 'Set' : 'Not Set',
     ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ? 'Set' : 'Not Set'
 });
+
+// Log Redis URL (securely)
+if (process.env.REDIS_URL) {
+    try {
+        const redisURL = new URL(process.env.REDIS_URL);
+        redisLogger.info(`Redis URL format check: protocol=${redisURL.protocol}, hostname=${redisURL.hostname}, port=${redisURL.port || 'default'}`);
+    } catch (error) {
+        redisLogger.error(`Invalid Redis URL format: ${error.message}`);
+    }
+}
+
+// Import payment status queue
+let paymentStatusQueue;
+try {
+    const queueModule = require('./src/services/payments/paystatus/paymentStatusQueue');
+    paymentStatusQueue = queueModule.paymentStatusQueue;
+    
+    // Test queue connection
+    if (paymentStatusQueue) {
+        redisLogger.info('Payment status queue module loaded, testing connection...');
+        
+        // The queue's Redis client is available at paymentStatusQueue.client
+        paymentStatusQueue.client.ping().then(response => {
+            redisLogger.info(`Redis connection test: ${response}`);
+        }).catch(error => {
+            redisLogger.error('Redis connection test failed', { 
+                error: error.message, 
+                stack: error.stack 
+            });
+        });
+    }
+} catch (error) {
+    redisLogger.error('Failed to initialize payment status queue', { 
+        error: error.message,
+        stack: error.stack
+    });
+}
 
 const app = express();
 
@@ -163,6 +201,45 @@ app.use("/", orderRoutes);          // Base URL for order routes
 app.use("/api", paymentRoutes);     // Payment status endpoint
 app.use('/admin', adminLimiter, adminRoutes); // Admin dashboard routes
 
+// Enhanced health check endpoint with database status
+app.get('/health', async (req, res) => {
+    const health = { 
+        status: 'ok', 
+        timestamp: new Date().toISOString(),
+        database: 'unknown',
+        redis: 'unknown',
+        environment: process.env.NODE_ENV || 'development'
+    };
+    
+    try {
+        // Test database connection
+        await pool.query('SELECT NOW()');
+        health.database = 'connected';
+    } catch (error) {
+        health.database = 'disconnected';
+        health.status = 'error';
+        logger.error('Health check database error:', error);
+    }
+    
+    // Test Redis connection using Bull's redis client if available
+    if (paymentStatusQueue) {
+        try {
+            const pingResult = await paymentStatusQueue.client.ping();
+            health.redis = pingResult === 'PONG' ? 'connected' : 'error';
+        } catch (error) {
+            health.redis = 'disconnected';
+            health.status = 'error';
+            logger.error('Health check Redis error:', error);
+        }
+    } else {
+        health.redis = 'not initialized';
+        health.status = 'error';
+    }
+    
+    const statusCode = health.status === 'ok' ? 200 : 500;
+    res.status(statusCode).json(health);
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     logger.error('Global error encountered', { 
@@ -183,13 +260,18 @@ module.exports = {
   orderLogger,
   paymentLogger,
   adminLogger,
-  systemLogger
+  systemLogger,
+  redisLogger
 };
 
 // CRITICAL: Create server this way to handle shutdown
 const server = app.listen(PORT, () => {
     systemLogger.info(`Server started on port ${PORT}`);
-    paymentLogger.info(`Payment status checking service initialized`);
+    if (paymentStatusQueue) {
+        paymentLogger.info(`Payment status checking service initialized`);
+    } else {
+        paymentLogger.warn(`Payment status checking service failed to initialize - check Redis connection`);
+    }
 });
 
 // Graceful Shutdown Handler
@@ -202,8 +284,10 @@ function gracefulShutdown() {
         
         // Then close the payment status queue
         try {
-            await paymentStatusQueue.close();
-            paymentLogger.info('Payment status queue closed');
+            if (paymentStatusQueue) {
+                await paymentStatusQueue.close();
+                paymentLogger.info('Payment status queue closed');
+            }
         } catch (err) {
             logger.error('Error closing payment status queue', { error: err.message });
         }
@@ -234,10 +318,4 @@ process.on('uncaughtException', (error) => {
   setTimeout(() => {
     process.exit(1);
   }, 1000);
-});
-
-// Add basic health check endpoint
-app.get('/health', (req, res) => {
-    const timestamp = new Date().toISOString();
-    res.json({ status: 'ok', timestamp });
 });
