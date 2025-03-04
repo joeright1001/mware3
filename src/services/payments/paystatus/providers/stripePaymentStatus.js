@@ -41,7 +41,7 @@ class StripePaymentStatus {
             console.log(`Stripe status response for ${sessionId}:`, response.data);
             
             return {
-                status: this.normalizeStatus(response.data.payment_status, response.data.status),
+                status: response.data.payment_status || 'unknown',
                 originalStatus: `${response.data.status}/${response.data.payment_status}`,
                 message: `Stripe status check successful: ${response.data.payment_status}`
             };
@@ -57,28 +57,6 @@ class StripePaymentStatus {
                 message: error.response?.data?.error?.message || error.message
             };
         }
-    }
-    
-    /**
-     * Maps Stripe-specific status values to standardized application status values
-     * @param {string} paymentStatus - Payment status from Stripe API
-     * @param {string} sessionStatus - Session status from Stripe API
-     * @returns {string} Normalized status for application use
-     */
-    normalizeStatus(paymentStatus, sessionStatus) {
-        // Handle if session is expired or incomplete
-        if (sessionStatus === 'expired') return 'expired';
-        if (sessionStatus === 'open') return 'pending';
-        
-        // Map Stripe payment statuses to our application statuses
-        const statusMap = {
-            'unpaid': 'pending',       // Payment has not been paid yet
-            'paid': 'completed',       // Payment has been paid
-            'no_payment_required': 'completed', // No payment required
-            'canceled': 'cancelled'    // Payment was canceled
-        };
-        
-        return statusMap[paymentStatus] || 'unknown';
     }
 }
 

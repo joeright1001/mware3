@@ -50,7 +50,7 @@ class BTCPayPaymentStatus {
             });
             
             return {
-                status: this.normalizeStatus(response.data.status, response.data.additionalStatus),
+                status: response.data.status || 'unknown',
                 originalStatus: `${response.data.status}/${response.data.additionalStatus || 'none'}`,
                 message: `BTCPay status check successful: ${response.data.status}`
             };
@@ -66,35 +66,6 @@ class BTCPayPaymentStatus {
                 message: error.response?.data?.message || error.message
             };
         }
-    }
-    
-    /**
-     * Maps BTCPay-specific status values to standardized application status values
-     * @param {string} invoiceStatus - Status from BTCPay API
-     * @param {string} additionalStatus - Additional status details from BTCPay API
-     * @returns {string} Normalized status for application use
-     */
-    normalizeStatus(invoiceStatus, additionalStatus) {
-        // Map BTCPay statuses to our application statuses
-        const statusMap = {
-            'New': 'pending',          // Invoice created but not paid
-            'Processing': 'pending',    // Invoice payment is being processed
-            'Settled': 'completed',     // Invoice has been fully paid
-            'Complete': 'completed',    // Payment confirmed and credited to merchant account
-            'Expired': 'expired',       // Invoice expired without being paid
-            'Invalid': 'cancelled',     // Invoice is no longer valid
-            'Paid': 'completed',        // Invoice has been paid but not yet settled
-            'Confirmed': 'completed'    // Payment confirmed but not yet settled
-        };
-        
-        // Additional handling for special cases
-        if (invoiceStatus === 'Settled' && additionalStatus === 'paidOver') {
-            return 'completed';
-        } else if (invoiceStatus === 'Settled' && additionalStatus === 'paidPartial') {
-            return 'pending';
-        }
-        
-        return statusMap[invoiceStatus] || 'unknown';
     }
 }
 

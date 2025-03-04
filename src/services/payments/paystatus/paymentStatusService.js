@@ -14,7 +14,7 @@ const poliPaymentStatus = require('./providers/poliPaymentStatus');
 const stripePaymentStatus = require('./providers/stripePaymentStatus');
 const alipayPaymentStatus = require('./providers/alipayPaymentStatus');
 const btcpayPaymentStatus = require('./providers/btcpayPaymentStatus');
-
+const blinkPaymentStatus = require('./providers/blinkPaymentStatus');
 
 class PaymentStatusService {
     constructor() {
@@ -23,7 +23,8 @@ class PaymentStatusService {
             'POLi': poliPaymentStatus,
             'STRIPE': stripePaymentStatus,
             'ALIPAY': alipayPaymentStatus,
-            'BTCPAY': btcpayPaymentStatus
+            'BTCPAY': btcpayPaymentStatus,
+            'BLINK': blinkPaymentStatus
         };
     }
     
@@ -62,13 +63,14 @@ class PaymentStatusService {
             const statusResult = await providerImplementation.checkStatus(payment.payid);
             
             // Log the status check result
-            await this.logStatusCheck(payment.record_id, statusResult.status, statusResult.message);
+            await this.logStatusCheck(payment.record_id, statusResult, statusResult.message);
             
             return {
                 paymentId: payment.record_id,
                 payid: payment.payid,
                 provider: payment.provider,
                 status: statusResult.status,
+                payment_status: statusResult.payment_status || statusResult.status,
                 message: statusResult.message
             };
         } catch (error) {
@@ -80,18 +82,35 @@ class PaymentStatusService {
     /**
      * Log a payment status check attempt to the pay_status table
      * @param {number} paymentId - Payment record ID
-     * @param {string} status - Status result
+     * @param {Object} statusResult - Status result from provider
      * @param {string} message - Status message or error
      */
-    async logStatusCheck(paymentId, status, message) {
+    async logStatusCheck(paymentId, statusResult, message) {
         try {
+            // For providers that return both status types (dual-status):
+            // - payment_status goes to pay_status.status
+            // - status goes to payments.status_url
+            // For single-status providers, use the same value for both
+            
+            const paymentStatus = statusResult.payment_status || statusResult.status;
+            
+            // Insert into pay_status table
             const query = `
                 INSERT INTO pay_status (payments_record_id, date_time, status, message)
                 VALUES ($1, NOW(), $2, $3)
             `;
             
-            await pool.query(query, [paymentId, status, message]);
-            console.log(`Logged status check for payment ${paymentId}: ${status}`);
+            await pool.query(query, [paymentId, paymentStatus, message]);
+            console.log(`Logged status check for payment ${paymentId}: ${paymentStatus}`);
+            
+            // Update the main payment record status
+            if (statusResult.status) {
+                await pool.query(
+                    `UPDATE payments SET status_url = $1 WHERE record_id = $2`,
+                    [statusResult.status, paymentId]
+                );
+                console.log(`Updated payment record ${paymentId} with status: ${statusResult.status}`);
+            }
         } catch (error) {
             console.error(`Error logging status check for payment ${paymentId}:`, error);
             throw error;

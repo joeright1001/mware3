@@ -15,6 +15,7 @@ const poliPaymentStatus = require('./providers/poliPaymentStatus');
 const stripePaymentStatus = require('./providers/stripePaymentStatus');
 const alipayPaymentStatus = require('./providers/alipayPaymentStatus');
 const btcpayPaymentStatus = require('./providers/btcpayPaymentStatus');
+const blinkPaymentStatus = require('./providers/blinkPaymentStatus');
 const pool = require('../../../config/database');
 
 // Create the payment status check queue
@@ -62,18 +63,23 @@ paymentStatusQueue.process(async (job) => {
             // Check payment status using the BTCPay provider
             statusResult = await btcpayPaymentStatus.checkStatus(payid);
         }
+        else if (provider === 'BLINK') {
+            // Check payment status using the Blink provider
+            statusResult = await blinkPaymentStatus.checkStatus(payid);
+        }
         else {
             throw new Error(`Unsupported provider: ${provider}`);
         }
         
         // Log the status check to database
-        await logStatusCheck(paymentId, statusResult.status, statusResult.message);
+        await logStatusCheck(paymentId, statusResult, statusResult.message);
         
         const result = {
             paymentId,
             payid,
             provider,
             status: statusResult.status,
+            payment_status: statusResult.payment_status || statusResult.status,
             message: statusResult.message
         };
         
@@ -84,7 +90,11 @@ paymentStatusQueue.process(async (job) => {
         
         // Try to log the error
         try {
-            await logStatusCheck(paymentId, 'error', error.message);
+            await logStatusCheck(
+                paymentId, 
+                { status: 'error', payment_status: 'error' }, 
+                error.message
+            );
         } catch (logError) {
             console.error(`Failed to log status check error: ${logError.message}`);
         }
@@ -97,15 +107,32 @@ paymentStatusQueue.process(async (job) => {
  * Helper function to log a status check to the database
  * Defined directly in this file to avoid circular dependencies
  */
-async function logStatusCheck(paymentId, status, message) {
+async function logStatusCheck(paymentId, statusResult, message) {
     try {
+        // For providers that return both status types (dual-status):
+        // - payment_status goes to pay_status.status
+        // - status goes to payments.status_url
+        // For single-status providers, use the same value for both
+        
+        const paymentStatus = statusResult.payment_status || statusResult.status;
+        
+        // Insert into pay_status table
         const query = `
             INSERT INTO pay_status (payments_record_id, date_time, status, message)
             VALUES ($1, NOW(), $2, $3)
         `;
         
-        await pool.query(query, [paymentId, status, message]);
-        console.log(`Logged status check for payment ${paymentId}: ${status}`);
+        await pool.query(query, [paymentId, paymentStatus, message]);
+        console.log(`Logged status check for payment ${paymentId}: ${paymentStatus}`);
+        
+        // Update the main payment record status
+        if (statusResult.status) {
+            await pool.query(
+                `UPDATE payments SET status_url = $1 WHERE record_id = $2`,
+                [statusResult.status, paymentId]
+            );
+            console.log(`Updated payment record ${paymentId} with status: ${statusResult.status}`);
+        }
     } catch (error) {
         console.error(`Error logging status check for payment ${paymentId}:`, error);
         throw error;
@@ -138,7 +165,7 @@ function schedulePaymentStatusChecks(payment) {
         }
     );
     
-    // Schedule second check at 3 minutes after creation (for testing)
+    // Schedule second check at 32 minutes after creation (for testing)
     paymentStatusQueue.add(
         {
             paymentId: payment.record_id,
@@ -147,12 +174,12 @@ function schedulePaymentStatusChecks(payment) {
             checkTime: '3min'
         },
         {
-            delay: 3 * 60 * 1000, // 3 minutes (for testing)
-            jobId: `${payment.provider}-${payment.payid}-3min`
+            delay: 32 * 60 * 1000, // 32 minutes (for testing)
+            jobId: `${payment.provider}-${payment.payid}-32min`
         }
     );
     
-    console.log(`Scheduled status checks for ${payment.provider} payment ${payment.payid} at +1min and +3min (testing)`);
+    console.log(`Scheduled status checks for ${payment.provider} payment ${payment.payid} at +1min and +32min (testing)`);
 }
 
 // Event listeners for monitoring the queue
@@ -160,7 +187,8 @@ paymentStatusQueue.on('completed', (job, result) => {
     console.log(`Job ${job.id} completed:`, {
         provider: job.data.provider,
         payid: job.data.payid,
-        status: result?.status || 'unknown'
+        status: result?.status || 'unknown',
+        payment_status: result?.payment_status || result?.status || 'unknown'
     });
 });
 

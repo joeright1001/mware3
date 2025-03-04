@@ -6,7 +6,7 @@
  * Functions:
  * - Connect to Stripe API (which handles Alipay)
  * - Query Checkout Session status using the stored session ID
- * - Parse and normalize API responses with Alipay context
+ * - Return raw API responses without any normalization
  */
 
 const axios = require('axios');
@@ -20,7 +20,7 @@ class AlipayPaymentStatus {
     /**
      * Check the status of an Alipay payment
      * @param {string} sessionId - The Checkout Session ID to check
-     * @returns {Object} Normalized status information
+     * @returns {Object} Raw status information from Stripe API
      */
     async checkStatus(sessionId) {
         try {
@@ -48,7 +48,8 @@ class AlipayPaymentStatus {
             }
             
             return {
-                status: this.normalizeStatus(response.data.payment_status, response.data.status),
+                // Raw status from API
+                status: response.data.payment_status || 'unknown',
                 originalStatus: `${response.data.status}/${response.data.payment_status}`,
                 message: `Alipay status check successful: ${response.data.payment_status}`
             };
@@ -64,28 +65,6 @@ class AlipayPaymentStatus {
                 message: error.response?.data?.error?.message || error.message
             };
         }
-    }
-    
-    /**
-     * Maps Stripe/Alipay-specific status values to standardized application status values
-     * @param {string} paymentStatus - Payment status from Stripe API
-     * @param {string} sessionStatus - Session status from Stripe API
-     * @returns {string} Normalized status for application use
-     */
-    normalizeStatus(paymentStatus, sessionStatus) {
-        // Handle if session is expired or incomplete
-        if (sessionStatus === 'expired') return 'expired';
-        if (sessionStatus === 'open') return 'pending';
-        
-        // Map payment statuses to our application statuses
-        const statusMap = {
-            'unpaid': 'pending',       // Payment has not been paid yet
-            'paid': 'completed',       // Payment has been paid
-            'no_payment_required': 'completed', // No payment required
-            'canceled': 'cancelled'    // Payment was canceled
-        };
-        
-        return statusMap[paymentStatus] || 'unknown';
     }
 }
 

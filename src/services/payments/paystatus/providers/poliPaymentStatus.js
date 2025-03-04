@@ -6,8 +6,8 @@
  * Functions:
  * - Connect to POLi API with proper authentication
  * - Query payment status using the stored token/payid
- * - Parse and normalize API responses
- * - Handle POLi-specific error conditions
+ * - Return raw API responses without any normalization
+ * - Provide raw status for both status_pay and status_url columns
  */
 
 const axios = require('axios');
@@ -22,7 +22,7 @@ class PoliPaymentStatus {
     /**
      * Check the status of a POLi payment
      * @param {string} payid - The payment token/ID to check
-     * @returns {Object} Normalized status information
+     * @returns {Object} Raw status information from POLi API
      */
     async checkStatus(payid) {
         try {
@@ -43,14 +43,17 @@ class PoliPaymentStatus {
             
             console.log(`POLi status response for ${payid}:`, response.data);
             
-            // Normalize the response
-            // POLi returns the status as a quoted string like "Activated"
+            // POLi returns the status as a quoted string like "Activated" - remove quotes if needed
             const status = typeof response.data === 'string' 
                 ? response.data.replace(/^"|"$/g, '') 
                 : response.data;
             
             return {
-                status: this.normalizeStatus(status),
+                // Raw status for status_pay column
+                status: status,
+                // Same raw status for status_url column
+                status_url: status,
+                // For compatibility with existing code
                 originalStatus: status,
                 message: `POLi status check successful: ${status}`
             };
@@ -62,29 +65,11 @@ class PoliPaymentStatus {
             
             return {
                 status: 'error',
+                status_url: 'error',
                 originalStatus: error.response?.status || 'unknown',
                 message: error.response?.data?.Message || error.message
             };
         }
-    }
-    
-    /**
-     * Maps POLi-specific status values to standardized application status values
-     * @param {string} poliStatus - Status value from POLi API
-     * @returns {string} Normalized status for application use
-     */
-    normalizeStatus(poliStatus) {
-        // Map POLi statuses to our application statuses
-        const statusMap = {
-            'Activated': 'pending',         // Link has been activated but payment not completed
-            'Completed': 'completed',       // Payment has been completed successfully
-            'Cancelled': 'cancelled',       // User cancelled the payment
-            'TimedOut': 'expired',          // Payment session timed out
-            'Error': 'error',               // Error occurred during payment
-            'Unused': 'pending'             // Link has not been used yet
-        };
-        
-        return statusMap[poliStatus] || 'unknown';
     }
 }
 

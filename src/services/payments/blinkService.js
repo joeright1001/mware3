@@ -16,7 +16,8 @@
 const axios = require('axios');
 const pool = require('../../config/database');
 const crypto = require('crypto');
-const expiryService = require('../expiry/expiryService');
+const expiryService = require('./expiry/expiryService');
+const { schedulePaymentStatusChecks } = require('./paystatus/paymentStatusQueue');
 
 class BlinkService {
     constructor() {
@@ -51,7 +52,6 @@ class BlinkService {
         }
     }
 
-    // [Previous methods remain exactly the same: getAccessToken, ensureValidToken]
     async getAccessToken() {
         try {
             console.log('\n=== Blink Authentication ===');
@@ -148,11 +148,12 @@ class BlinkService {
             console.log('Blink API Response:', response.data);
 
             if (response.data && response.data.redirect_uri) {
-                await pool.query(
+                const insertResult = await pool.query(
                     `INSERT INTO payments (
                         order_record_id, provider, status_url, amount, 
                         payment_url, payid, expires_at
-                    ) VALUES ($1, $2, $3, $4, $5, $6, NOW() + interval '${process.env.BLINK_PAYMENT_EXPIRY_MINUTES} minutes')`,
+                    ) VALUES ($1, $2, $3, $4, $5, $6, NOW() + interval '${process.env.BLINK_PAYMENT_EXPIRY_MINUTES} minutes')
+                    RETURNING record_id`,
                     [
                         orderData.record_id, 
                         'BLINK', 
@@ -168,6 +169,13 @@ class BlinkService {
                     response.data.quick_payment_id,
                     'BLINK'
                 );
+
+                // Schedule payment status checks
+                schedulePaymentStatusChecks({
+                    record_id: insertResult.rows[0].record_id,
+                    provider: 'BLINK',
+                    payid: response.data.quick_payment_id
+                });
 
                 return response.data.redirect_uri;
             } else {
