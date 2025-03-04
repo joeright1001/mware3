@@ -10,13 +10,17 @@
  * - Handles NZ timezone specific formatting
  * - Stores payment records in database
  * - Error handling and logging
+ * - Extracts and stores payment token for status checking
+ * - Schedules status checks at 1min and 3min (for testing)
  * 
  * Flow:
  * 1. Receives order data
  * 2. Generates expiry timestamp in NZ timezone
  * 3. Creates POLi API payload
  * 4. Makes API request to generate payment link
- * 5. Stores payment record in database
+ * 5. Extracts payment token from URL
+ * 6. Stores payment record with token in database
+ * 7. Schedules status checks
  * 
  * Requirements:
  * - POLi API credentials in environment variables
@@ -26,6 +30,7 @@
 
 const axios = require('axios');
 const pool = require('../../config/database');
+const { schedulePaymentStatusChecks } = require('./paystatus/paymentStatusQueue');
 
 class PoliService {
     /**
@@ -82,12 +87,31 @@ class PoliService {
             const paymentUrl = response.data.replace(/"/g, '');
             console.log('POLi API Response:', paymentUrl);
 
-            // Store successful payment record in database
-            await pool.query(
-                `INSERT INTO payments (order_record_id, provider, status, amount, payment_url) 
-                 VALUES ($1, $2, $3, $4, $5)`,
-                [orderData.record_id, 'POLi', 'success', orderData.total_price, paymentUrl]
+            // Extract the token from the URL
+            // URL format example: https://poliapi.uat3.paywithpoli.com/api/POLiLink/Navigate/wsWnx
+            const payidMatch = paymentUrl.match(/\/([^\/]+)$/);
+            const payid = payidMatch ? payidMatch[1] : null;
+
+            console.log('Extracted POLi token (payid):', payid);
+
+            // Store successful payment record in database with payid
+            const result = await pool.query(
+                `INSERT INTO payments (order_record_id, provider, status_url, amount, payment_url, payid) 
+                 VALUES ($1, $2, $3, $4, $5, $6)
+                 RETURNING record_id`,
+                [orderData.record_id, 'POLi', 'success', orderData.total_price, paymentUrl, payid]
             );
+            
+            const paymentRecordId = result.rows[0]?.record_id;
+
+            // Schedule status checks at 1min and 3min after creation (for testing)
+            if (payid && paymentRecordId) {
+                schedulePaymentStatusChecks({
+                    record_id: paymentRecordId,
+                    provider: 'POLi',
+                    payid: payid
+                });
+            }
 
             return paymentUrl;
 
@@ -101,7 +125,7 @@ class PoliService {
             
             // Store failed payment record in database
             await pool.query(
-                `INSERT INTO payments (order_record_id, provider, status, amount, error_message) 
+                `INSERT INTO payments (order_record_id, provider, status_url, amount, message_url) 
                  VALUES ($1, $2, $3, $4, $5)`,
                 [orderData.record_id, 'POLi', 'failed', orderData.total_price, 
                  error.response?.data?.ErrorMessage || error.message]

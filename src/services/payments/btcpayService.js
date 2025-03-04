@@ -4,6 +4,7 @@
 
 const axios = require('axios');
 const pool = require('../../config/database');
+const { schedulePaymentStatusChecks } = require('./paystatus/paymentStatusQueue');
 
 class BTCPayService {
     constructor() {
@@ -66,11 +67,12 @@ class BTCPayService {
 
             if (response.data && response.data.checkoutLink) {
                 // Store payment record
-                await pool.query(
+                const insertResult = await pool.query(
                     `INSERT INTO payments (
-                        order_record_id, provider, status, amount, 
+                        order_record_id, provider, status_url, amount, 
                         payment_url, payid
-                    ) VALUES ($1, $2, $3, $4, $5, $6)`,
+                    ) VALUES ($1, $2, $3, $4, $5, $6)
+                    RETURNING record_id`,
                     [
                         orderData.record_id,
                         'BTCPAY',
@@ -80,6 +82,13 @@ class BTCPayService {
                         response.data.id
                     ]
                 );
+
+                // Schedule status checks at 1min and 3min after creation (for testing)
+                schedulePaymentStatusChecks({
+                    record_id: insertResult.rows[0].record_id,
+                    provider: 'BTCPAY',
+                    payid: response.data.id
+                });
 
                 return response.data.checkoutLink;
             } else {
@@ -98,7 +107,7 @@ class BTCPayService {
             // Store failed payment record
             await pool.query(
                 `INSERT INTO payments (
-                    order_record_id, provider, status, amount, error_message
+                    order_record_id, provider, status_url, amount, message_url
                 ) VALUES ($1, $2, $3, $4, $5)`,
                 [
                     orderData.record_id,

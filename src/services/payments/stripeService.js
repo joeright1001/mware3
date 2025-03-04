@@ -20,6 +20,7 @@
 
 const axios = require('axios');
 const pool = require('../../config/database');
+const { schedulePaymentStatusChecks } = require('./paystatus/paymentStatusQueue');
 
 class StripeService {
     constructor() {
@@ -124,11 +125,12 @@ class StripeService {
 
             if (response.data && response.data.url) {
                 // Store payment record with original amount (not including fees)
-                await pool.query(
+                const insertResult = await pool.query(
                     `INSERT INTO payments (
-                        order_record_id, provider, status, amount, 
+                        order_record_id, provider, status_url, amount, 
                         payment_url, payid, expires_at
-                    ) VALUES ($1, $2, $3, $4, $5, $6, NOW() + interval '30 minutes')`,
+                    ) VALUES ($1, $2, $3, $4, $5, $6, NOW() + interval '30 minutes')
+                    RETURNING record_id`,
                     [
                         orderData.record_id,
                         'STRIPE',
@@ -138,6 +140,13 @@ class StripeService {
                         response.data.id
                     ]
                 );
+                
+                // Schedule status checks at 1min and 3min after creation (for testing)
+                schedulePaymentStatusChecks({
+                    record_id: insertResult.rows[0].record_id,
+                    provider: 'STRIPE',
+                    payid: response.data.id
+                });
 
                 return response.data.url;
             } else {
@@ -155,7 +164,7 @@ class StripeService {
             // Store failed payment record
             await pool.query(
                 `INSERT INTO payments (
-                    order_record_id, provider, status, amount, error_message
+                    order_record_id, provider, status_url, amount, message_url
                 ) VALUES ($1, $2, $3, $4, $5)`,
                 [
                     orderData.record_id,

@@ -19,6 +19,7 @@
 
 const axios = require('axios');
 const pool = require('../../config/database');
+const { schedulePaymentStatusChecks } = require('./paystatus/paymentStatusQueue');
 
 class AlipayService {
     constructor() {
@@ -114,11 +115,12 @@ class AlipayService {
 
             if (response.data && response.data.url) {
                 // Store payment record
-                await pool.query(
+                const insertResult = await pool.query(
                     `INSERT INTO payments (
-                        order_record_id, provider, status, amount, 
+                        order_record_id, provider, status_url, amount, 
                         payment_url, payid, expires_at
-                    ) VALUES ($1, $2, $3, $4, $5, $6, NOW() + interval '30 minutes')`,
+                    ) VALUES ($1, $2, $3, $4, $5, $6, NOW() + interval '30 minutes')
+                    RETURNING record_id`,
                     [
                         orderData.record_id,
                         'ALIPAY',
@@ -128,6 +130,13 @@ class AlipayService {
                         response.data.id
                     ]
                 );
+
+                // Schedule status checks at 1min and 3min after creation (for testing)
+                schedulePaymentStatusChecks({
+                    record_id: insertResult.rows[0].record_id,
+                    provider: 'ALIPAY',
+                    payid: response.data.id
+                });
 
                 return response.data.url;
             } else {
@@ -145,7 +154,7 @@ class AlipayService {
             // Store failed payment record
             await pool.query(
                 `INSERT INTO payments (
-                    order_record_id, provider, status, amount, error_message
+                    order_record_id, provider, status_url, amount, message_url
                 ) VALUES ($1, $2, $3, $4, $5)`,
                 [
                     orderData.record_id,
