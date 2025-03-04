@@ -72,3 +72,5 @@ CREATE TRIGGER trg_update_expiry_status
 AFTER INSERT OR UPDATE ON public.expiry
 FOR EACH ROW
 EXECUTE FUNCTION update_expiry_status();
+
+ALTER TABLE payments ADD COLUMN reviewed TEXT DEFAULT 'no';
