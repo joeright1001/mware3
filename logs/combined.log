@@ -3384,3 +3384,38 @@
 {"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 04:25:33"}
 {"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 04:25:33"}
 {"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 04:25:34"}
+{"level":"info","message":"Database config initialized for development environment","service":"payment-server","timestamp":"2025-03-04 04:30:44"}
+{"level":"info","message":"Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)","service":"payment-server","timestamp":"2025-03-04 04:30:44"}
+{"ADMIN_PASSWORD":"Set","DATABASE_URL":"Set","JWT_SECRET":"Set","POLI_AUTH_CODE":"Set","PORT":"Not Set","REDIS_URL":"Set","component":"system","level":"info","message":"Environment variables loaded","service":"payment-server","timestamp":"2025-03-04 04:30:44"}
+{"component":"redis","level":"info","message":"Redis URL format check: protocol=redis:, hostname=localhost, port=6379","service":"payment-server","timestamp":"2025-03-04 04:30:44"}
+{"component":"redis","level":"info","message":"Payment status queue module loaded, testing connection...","service":"payment-server","timestamp":"2025-03-04 04:30:44"}
+{"component":"system","level":"info","message":"Middleware initialized","service":"payment-server","timestamp":"2025-03-04 04:30:44"}
+{"component":"system","level":"info","message":"Server started on port 3000","service":"payment-server","timestamp":"2025-03-04 04:30:44"}
+{"component":"payments","level":"info","message":"Payment status checking service initialized","service":"payment-server","timestamp":"2025-03-04 04:30:44"}
+{"component":"redis","level":"info","message":"Redis connection test: PONG","service":"payment-server","timestamp":"2025-03-04 04:30:44"}
+{"duration":16,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:30:47","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":9,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:31:17","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":8,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:31:47","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":10,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:32:17","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":8,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:32:47","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:33:17","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:33:47","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 04:33:52"}
+{"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 04:33:52"}
+{"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 04:33:53"}
+{"level":"info","message":"Database config initialized for development environment","service":"payment-server","timestamp":"2025-03-04 04:34:36"}
+{"level":"info","message":"Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)","service":"payment-server","timestamp":"2025-03-04 04:34:36"}
+{"ADMIN_PASSWORD":"Set","DATABASE_URL":"Set","JWT_SECRET":"Set","POLI_AUTH_CODE":"Set","PORT":"Not Set","REDIS_URL":"Set","component":"system","level":"info","message":"Environment variables loaded","service":"payment-server","timestamp":"2025-03-04 04:34:36"}
+{"component":"redis","level":"info","message":"Redis URL format check: protocol=redis:, hostname=localhost, port=6379","service":"payment-server","timestamp":"2025-03-04 04:34:36"}
+{"component":"redis","level":"info","message":"Payment status queue module loaded, testing connection...","service":"payment-server","timestamp":"2025-03-04 04:34:36"}
+{"component":"system","level":"info","message":"Middleware initialized","service":"payment-server","timestamp":"2025-03-04 04:34:36"}
+{"component":"system","level":"info","message":"Server started on port 3000","service":"payment-server","timestamp":"2025-03-04 04:34:36"}
+{"component":"payments","level":"info","message":"Payment status checking service initialized","service":"payment-server","timestamp":"2025-03-04 04:34:36"}
+{"component":"redis","level":"info","message":"Redis connection test: PONG","service":"payment-server","timestamp":"2025-03-04 04:34:36"}
+{"duration":57,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:34:47","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":9,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:35:18","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:35:49","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":11,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 04:36:18","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 04:36:40"}
+{"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 04:36:40"}
+{"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 04:36:40"}
