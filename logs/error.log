@@ -1,0 +1,3 @@
+{"level":"error","message":"Error generating PDF for order TO-3638: TypeError: page.waitForTimeout is not a function","service":"payment-server","timestamp":"2025-03-04 07:16:00"}
+{"level":"error","message":"PDF generation job failed for order: TO-3638: TypeError: page.waitForTimeout is not a function","service":"payment-server","timestamp":"2025-03-04 07:16:00"}
+{"level":"error","message":"PDF job pdf-TO-3638-1741072495904 failed for order: TO-3638: page.waitForTimeout is not a function","service":"payment-server","timestamp":"2025-03-04 07:16:00"}

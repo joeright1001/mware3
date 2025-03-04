@@ -307,6 +307,44 @@
           </div>
         </div>
         
+        <!-- PDF Section -->
+        <div class="data-card">
+          <div class="card-header">Order PDF</div>
+          <div class="card-body">
+            <% if (pdfStatus) { %>
+              <div class="order-detail-row">
+                <span class="detail-label">Status:</span>
+                <span class="detail-value">
+                  <% if (pdfStatus.status === 'completed') { %>
+                    <span class="badge bg-success">Completed</span>
+                  <% } else if (pdfStatus.status === 'processing') { %>
+                    <span class="badge bg-warning">Processing</span>
+                  <% } else if (pdfStatus.status === 'failed') { %>
+                    <span class="badge bg-danger">Failed</span>
+                  <% } %>
+                </span>
+              </div>
+              
+              <% if (pdfStatus.status === 'completed') { %>
+                <div class="order-detail-row">
+                  <span class="detail-label">Actions:</span>
+                  <span class="detail-value">
+                    <a href="/admin/pdf/<%= pdfStatus.record_id %>/view" class="btn btn-sm btn-primary" target="_blank">View PDF</a>
+                    <a href="/admin/pdf/<%= pdfStatus.record_id %>/download" class="btn btn-sm btn-secondary">Download PDF</a>
+                  </span>
+                </div>
+              <% } else if (pdfStatus.status === 'failed' && pdfStatus.error_message) { %>
+                <div class="order-detail-row">
+                  <span class="detail-label">Error:</span>
+                  <span class="detail-value text-danger"><%= pdfStatus.error_message %></span>
+                </div>
+              <% } %>
+            <% } else { %>
+              <p class="text-muted">No PDF has been generated for this order yet.</p>
+            <% } %>
+          </div>
+        </div>
+        
         <!-- Technical Details (Collapsible) -->
         <div class="data-card">
           <div class="card-header" id="techDetailsHeader">

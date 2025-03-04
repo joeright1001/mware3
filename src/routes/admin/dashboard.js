@@ -6,6 +6,7 @@ const basicAuth = require('express-basic-auth');
 const fs = require('fs');
 const path = require('path');
 const { Parser } = require('json2csv');
+const pdfService = require('../../services/pdf/pdfService');
 
 // Authentication middleware
 const adminAuth = basicAuth({
@@ -283,9 +284,18 @@ router.get('/order/:orderId', adminAuth, async (req, res) => {
       [orderResult.rows[0].record_id]
     );
     
+    // Get PDF status for this order
+    let pdfStatus = null;
+    try {
+      pdfStatus = await pdfService.getPdfStatus(orderResult.rows[0].trade_order);
+    } catch (error) {
+      console.error('Error fetching PDF status:', error);
+    }
+    
     res.render('admin/order-details', {
       order: orderResult.rows[0],
-      payments: paymentResult.rows
+      payments: paymentResult.rows,
+      pdfStatus: pdfStatus
     });
   } catch (error) {
     console.error('Error fetching order details:', error);

@@ -87,6 +87,7 @@ const paymentLogger = logger.child({ component: 'payments' });
 const adminLogger = logger.child({ component: 'admin' });
 const systemLogger = logger.child({ component: 'system' });
 const redisLogger = logger.child({ component: 'redis' });
+const pdfLogger = logger.child({ component: 'pdf' });
 
 // Import configurations
 const corsOptions = require('./src/config/cors');
@@ -96,6 +97,8 @@ const pool = require('./src/config/database');
 const orderRoutes = require('./src/routes/public/orders');
 const paymentRoutes = require('./src/routes/public/payments');
 const adminRoutes = require('./src/routes/admin/dashboard');
+const pdfRoutes = require('./src/routes/public/pdf');
+const adminPdfRoutes = require('./src/routes/admin/pdf');
 
 // Debug: Log environment variables
 systemLogger.info('Environment variables loaded', {
@@ -200,6 +203,8 @@ const adminLimiter = rateLimit({
 app.use("/", orderRoutes);          // Base URL for order routes
 app.use("/api", paymentRoutes);     // Payment status endpoint
 app.use('/admin', adminLimiter, adminRoutes); // Admin dashboard routes
+app.use("/pdf", pdfRoutes);         // Public PDF download endpoint
+app.use("/admin/pdf", adminPdfRoutes); // Admin PDF management
 
 // Enhanced health check endpoint with database status
 app.get('/health', async (req, res) => {
@@ -261,7 +266,8 @@ module.exports = {
   paymentLogger,
   adminLogger,
   systemLogger,
-  redisLogger
+  redisLogger,
+  pdfLogger
 };
 
 // CRITICAL: Create server this way to handle shutdown

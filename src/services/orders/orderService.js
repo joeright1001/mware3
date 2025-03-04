@@ -26,6 +26,7 @@ const BlinkService = require('../payments/blinkService');
 const BTCPayService = require('../payments/btcpayService');
 const StripeService = require('../payments/stripeService');
 const AlipayService = require('../payments/alipayService');
+const { schedulePdfGeneration } = require('../pdf/pdfQueue');
 
 class OrderService {
     /**
@@ -124,6 +125,15 @@ class OrderService {
 
             // Asynchronously generate payment links
             this.generatePaymentLinks(orderWithId);
+
+            // Schedule PDF generation 60 seconds after order creation
+            try {
+                await schedulePdfGeneration(trade_order, 60);
+                console.log(`PDF generation scheduled for order ${trade_order}`);
+            } catch (error) {
+                console.error(`Failed to schedule PDF generation for order ${trade_order}:`, error);
+                // Non-blocking - don't throw the error
+            }
 
             return { token, trade_order, order_creation_time: formattedDate };
 
