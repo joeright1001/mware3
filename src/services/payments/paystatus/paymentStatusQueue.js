@@ -4,7 +4,7 @@
  * Purpose: Manages scheduled jobs for payment status checks
  * 
  * Functions:
- * - Schedule status checks at 1min and 3min after each payment (for testing)
+ * - Schedule status checks at 1min and 32min after each payment (for testing)
  * - Process jobs for different payment providers
  * - Handle job failures and retries
  */
@@ -171,7 +171,7 @@ function schedulePaymentStatusChecks(payment) {
             paymentId: payment.record_id,
             payid: payment.payid,
             provider: payment.provider,
-            checkTime: '3min'
+            checkTime: '32min'
         },
         {
             delay: 32 * 60 * 1000, // 32 minutes (for testing)

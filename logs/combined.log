@@ -2522,3 +2522,584 @@
 {"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 00:17:36"}
 {"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 00:17:36"}
 {"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 00:17:36"}
+{"level":"info","message":"Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)","service":"payment-server","timestamp":"2025-03-04 01:08:05"}
+{"ADMIN_PASSWORD":"Set","DATABASE_URL":"Set","JWT_SECRET":"Set","POLI_AUTH_CODE":"Set","PORT":"Not Set","component":"system","level":"info","message":"Environment variables loaded","service":"payment-server","timestamp":"2025-03-04 01:08:05"}
+{"component":"system","level":"info","message":"Middleware initialized","service":"payment-server","timestamp":"2025-03-04 01:08:05"}
+{"component":"system","level":"info","message":"Server started on port 3000","service":"payment-server","timestamp":"2025-03-04 01:08:05"}
+{"component":"payments","level":"info","message":"Payment status checking service initialized","service":"payment-server","timestamp":"2025-03-04 01:08:05"}
+{"duration":16,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:08:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":5,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:08:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"\n=== Starting Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Processing order: TO-3633","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"\n=== POLi Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Generating POLi payment link for order: TO-3633","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"POLi Generated Expiry Time: 2025-03-04T14:39:19+13:00","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"POLi API Payload: {\"LinkType\":\"0\",\"Amount\":\"324.45\",\"MerchantReference\":\"TO-3633\",\"LinkExpiry\":\"2025-03-04T14:39:19+13:00\"}","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"\n=== Blink Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Generating Blink payment link for order: TO-3633","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"\n=== Blink Authentication ===","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Requesting Blink access token...","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"\n=== BTCPay Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Generating BTCPay invoice for order: TO-3633","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"BTCPay request configuration: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"\n=== Stripe Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Generating Stripe payment link for order: TO-3633","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Payment calculation: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"\n=== Alipay Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Generating Alipay payment link for order: TO-3633","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Alipay payment calculation: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"duration":63,"isWebRequest":true,"level":"info","message":"Web request processed","method":"POST","service":"payment-server","status":200,"timestamp":"2025-03-04 01:09:19","url":"/create"}
+{"level":"info","message":"POLi API Response: https://uat3.poli.to/X6Dnx","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Extracted POLi token (payid): X6Dnx","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduling status checks for POLi payment X6Dnx","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduled status checks for POLi payment X6Dnx at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Successfully obtained Blink access token","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Blink API Payload: {\"flow\":{\"detail\":{\"type\":\"gateway\",\"redirect_uri\":\"https://gold-buyers-christchurch.webflow.io/\",\"flow_hint\":{\"type\":\"redirect\",\"bank\":\"PNZ\"}}},\"pcr\":{\"particulars\":\"TO-3633\",\"code\":\"TO-3633\",\"reference\":\"291\"},\"amount\":{\"total\":\"324.45\",\"currency\":\"NZD\"}}","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Stripe Checkout Session created: cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduling status checks for STRIPE payment cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduled status checks for STRIPE payment cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Alipay Checkout Session created: cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduling status checks for ALIPAY payment cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduled status checks for ALIPAY payment cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Blink API Response: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduling status checks for BLINK payment 89171612-2a8c-4ec0-a4cd-2a17baa4bc7a","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduled status checks for BLINK payment 89171612-2a8c-4ec0-a4cd-2a17baa4bc7a at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"BTCPay API Response: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduling status checks for BTCPAY payment 9fgazF4uNEupptCwQVSwe5","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Scheduled status checks for BTCPAY payment 9fgazF4uNEupptCwQVSwe5 at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"=== Payment Processing Complete ===\n","service":"payment-server","timestamp":"2025-03-04 01:09:19"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzMiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwNTU5MDMwLCJpYXQiOjE3NDEwNTA1NTksImV4cCI6MTc0MTA1NDE1OX0.ToBlpkHcRh-6_zqzLe1kudr51fHia--Ki9CW-Hv86mw","service":"payment-server","timestamp":"2025-03-04 01:09:26"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzMiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwNTU5MDMwLCJpYXQiOjE3NDEwNTA1NTksImV4cCI6MTc0MTA1NDE1OX0.ToBlpkHcRh-6_zqzLe1kudr51fHia--Ki9CW-Hv86mw","service":"payment-server","timestamp":"2025-03-04 01:09:26"}
+{"level":"info","message":"Payment status results: [object Object],[object Object],[object Object],[object Object],[object Object]","service":"payment-server","timestamp":"2025-03-04 01:09:26"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:09:26","url":"/payment-status/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzMiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwNTU5MDMwLCJpYXQiOjE3NDEwNTA1NTksImV4cCI6MTc0MTA1NDE1OX0.ToBlpkHcRh-6_zqzLe1kudr51fHia--Ki9CW-Hv86mw"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:09:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":5,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:09:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":9,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:10:15","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Executing queries...","service":"payment-server","timestamp":"2025-03-04 01:10:17"}
+{"level":"info","message":"Found 50 payments of 218 total","service":"payment-server","timestamp":"2025-03-04 01:10:17"}
+{"duration":20,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:10:17","url":"/payments"}
+{"level":"info","message":"Processing payment status check job: POLi-X6Dnx-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"Checking POLi payment status for: X6Dnx","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"POLi status check URL: https://publicapi.uat3.paywithpoli.com/api/POLiLink/Status/X6Dnx","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"POLi auth code available: Yes","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"POLi status response for X6Dnx: Activated","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"Logged status check for payment 214: Activated","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"Updated payment record 214 with status: Activated","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"Completed 1min status check for POLi payment X6Dnx","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"Job POLi-X6Dnx-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"Processing payment status check job: STRIPE-cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"Checking Stripe payment status for session: cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF","service":"payment-server","timestamp":"2025-03-04 01:10:19"}
+{"level":"info","message":"Stripe status response for cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Logged status check for payment 215: unpaid","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Updated payment record 215 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Completed 1min status check for STRIPE payment cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Job STRIPE-cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Processing payment status check job: ALIPAY-cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Checking Alipay payment status for session: cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Alipay status response for cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Logged status check for payment 216: unpaid","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Updated payment record 216 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Completed 1min status check for ALIPAY payment cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Job ALIPAY-cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Processing payment status check job: BLINK-89171612-2a8c-4ec0-a4cd-2a17baa4bc7a-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Checking Blink payment status for quick_payment_id: 89171612-2a8c-4ec0-a4cd-2a17baa4bc7a","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Requesting Blink access token for status check...","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Successfully obtained Blink access token for status check","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Blink status response for 89171612-2a8c-4ec0-a4cd-2a17baa4bc7a: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Logged status check for payment 217: unknown","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Updated payment record 217 with status: GatewayAwaitingSubmission","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Completed 1min status check for BLINK payment 89171612-2a8c-4ec0-a4cd-2a17baa4bc7a","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Job BLINK-89171612-2a8c-4ec0-a4cd-2a17baa4bc7a-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Processing payment status check job: BTCPAY-9fgazF4uNEupptCwQVSwe5-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"Checking BTCPay invoice status for: 9fgazF4uNEupptCwQVSwe5","service":"payment-server","timestamp":"2025-03-04 01:10:20"}
+{"level":"info","message":"BTCPay status response for 9fgazF4uNEupptCwQVSwe5: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:22"}
+{"level":"info","message":"Logged status check for payment 218: New","service":"payment-server","timestamp":"2025-03-04 01:10:22"}
+{"level":"info","message":"Updated payment record 218 with status: New","service":"payment-server","timestamp":"2025-03-04 01:10:22"}
+{"level":"info","message":"Completed 1min status check for BTCPAY payment 9fgazF4uNEupptCwQVSwe5","service":"payment-server","timestamp":"2025-03-04 01:10:22"}
+{"level":"info","message":"Job BTCPAY-9fgazF4uNEupptCwQVSwe5-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:10:22"}
+{"level":"info","message":"Executing queries...","service":"payment-server","timestamp":"2025-03-04 01:10:29"}
+{"level":"info","message":"Found 50 payments of 218 total","service":"payment-server","timestamp":"2025-03-04 01:10:29"}
+{"duration":11,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:10:29","url":"/payments"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:10:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:11:01","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:11:30","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:11:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Executing queries...","service":"payment-server","timestamp":"2025-03-04 01:11:41"}
+{"level":"info","message":"Found 50 payments of 218 total","service":"payment-server","timestamp":"2025-03-04 01:11:41"}
+{"duration":11,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:11:41","url":"/payments"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:11:56","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:12:12","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:12:20","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:12:42","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:12:50","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":8,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:13:12","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 01:13:22"}
+{"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 01:13:22"}
+{"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 01:13:22"}
+{"level":"info","message":"Database config initialized for development environment","service":"payment-server","timestamp":"2025-03-04 01:13:43"}
+{"level":"info","message":"Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)","service":"payment-server","timestamp":"2025-03-04 01:13:43"}
+{"ADMIN_PASSWORD":"Set","DATABASE_URL":"Set","JWT_SECRET":"Set","POLI_AUTH_CODE":"Set","PORT":"Not Set","component":"system","level":"info","message":"Environment variables loaded","service":"payment-server","timestamp":"2025-03-04 01:13:43"}
+{"component":"system","level":"info","message":"Middleware initialized","service":"payment-server","timestamp":"2025-03-04 01:13:43"}
+{"component":"system","level":"info","message":"Server started on port 3000","service":"payment-server","timestamp":"2025-03-04 01:13:43"}
+{"component":"payments","level":"info","message":"Payment status checking service initialized","service":"payment-server","timestamp":"2025-03-04 01:13:43"}
+{"level":"info","message":"\n=== Starting Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Processing order: TO-3634","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"\n=== POLi Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Generating POLi payment link for order: TO-3634","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"POLi Generated Expiry Time: 2025-03-04T14:44:05+13:00","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"POLi API Payload: {\"LinkType\":\"0\",\"Amount\":\"323.85\",\"MerchantReference\":\"TO-3634\",\"LinkExpiry\":\"2025-03-04T14:44:05+13:00\"}","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"\n=== Blink Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Generating Blink payment link for order: TO-3634","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"\n=== Blink Authentication ===","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Requesting Blink access token...","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"\n=== BTCPay Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Generating BTCPay invoice for order: TO-3634","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"BTCPay request configuration: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"\n=== Stripe Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Generating Stripe payment link for order: TO-3634","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Payment calculation: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"\n=== Alipay Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Generating Alipay payment link for order: TO-3634","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Alipay payment calculation: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"duration":71,"isWebRequest":true,"level":"info","message":"Web request processed","method":"POST","service":"payment-server","status":200,"timestamp":"2025-03-04 01:14:05","url":"/create"}
+{"level":"info","message":"POLi API Response: https://uat3.poli.to/BdGWn","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Extracted POLi token (payid): BdGWn","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Scheduling status checks for POLi payment BdGWn","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Scheduled status checks for POLi payment BdGWn at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Successfully obtained Blink access token","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Blink API Payload: {\"flow\":{\"detail\":{\"type\":\"gateway\",\"redirect_uri\":\"https://gold-buyers-christchurch.webflow.io/\",\"flow_hint\":{\"type\":\"redirect\",\"bank\":\"PNZ\"}}},\"pcr\":{\"particulars\":\"TO-3634\",\"code\":\"TO-3634\",\"reference\":\"292\"},\"amount\":{\"total\":\"323.85\",\"currency\":\"NZD\"}}","service":"payment-server","timestamp":"2025-03-04 01:14:05"}
+{"level":"info","message":"Alipay Checkout Session created: cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Scheduling status checks for ALIPAY payment cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Scheduled status checks for ALIPAY payment cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Stripe Checkout Session created: cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Scheduling status checks for STRIPE payment cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Scheduled status checks for STRIPE payment cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"BTCPay API Response: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Scheduling status checks for BTCPAY payment QjMZBLqkqig3PSRdUqPjJd","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Scheduled status checks for BTCPAY payment QjMZBLqkqig3PSRdUqPjJd at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Blink API Response: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Scheduling status checks for BLINK payment f4b964d1-9f28-42e5-bb1e-990c7b5edaca","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Scheduled status checks for BLINK payment f4b964d1-9f28-42e5-bb1e-990c7b5edaca at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"=== Payment Processing Complete ===\n","service":"payment-server","timestamp":"2025-03-04 01:14:06"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:14:13"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:14:13"}
+{"level":"info","message":"Payment status results: [object Object],[object Object],[object Object],[object Object],[object Object]","service":"payment-server","timestamp":"2025-03-04 01:14:13"}
+{"duration":4,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:14:13","url":"/payment-status/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88"}
+{"duration":9,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:14:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":5,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:14:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":9,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:14:50","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Processing payment status check job: POLi-BdGWn-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:05"}
+{"level":"info","message":"Checking POLi payment status for: BdGWn","service":"payment-server","timestamp":"2025-03-04 01:15:05"}
+{"level":"info","message":"POLi status check URL: https://publicapi.uat3.paywithpoli.com/api/POLiLink/Status/BdGWn","service":"payment-server","timestamp":"2025-03-04 01:15:05"}
+{"level":"info","message":"POLi auth code available: Yes","service":"payment-server","timestamp":"2025-03-04 01:15:05"}
+{"level":"info","message":"POLi status response for BdGWn: Unused","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Logged status check for payment 219: Unused","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Updated payment record 219 with status: Unused","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Completed 1min status check for POLi payment BdGWn","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Job POLi-BdGWn-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Processing payment status check job: ALIPAY-cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Checking Alipay payment status for session: cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Alipay status response for cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Logged status check for payment 220: unpaid","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Updated payment record 220 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Completed 1min status check for ALIPAY payment cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Job ALIPAY-cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Processing payment status check job: STRIPE-cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Checking Stripe payment status for session: cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Stripe status response for cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Logged status check for payment 221: unpaid","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Updated payment record 221 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Completed 1min status check for STRIPE payment cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Job STRIPE-cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Processing payment status check job: BTCPAY-QjMZBLqkqig3PSRdUqPjJd-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"Checking BTCPay invoice status for: QjMZBLqkqig3PSRdUqPjJd","service":"payment-server","timestamp":"2025-03-04 01:15:06"}
+{"level":"info","message":"BTCPay status response for QjMZBLqkqig3PSRdUqPjJd: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:08"}
+{"level":"info","message":"Logged status check for payment 222: New","service":"payment-server","timestamp":"2025-03-04 01:15:08"}
+{"level":"info","message":"Updated payment record 222 with status: New","service":"payment-server","timestamp":"2025-03-04 01:15:08"}
+{"level":"info","message":"Completed 1min status check for BTCPAY payment QjMZBLqkqig3PSRdUqPjJd","service":"payment-server","timestamp":"2025-03-04 01:15:08"}
+{"level":"info","message":"Job BTCPAY-QjMZBLqkqig3PSRdUqPjJd-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:08"}
+{"level":"info","message":"Processing payment status check job: BLINK-f4b964d1-9f28-42e5-bb1e-990c7b5edaca-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:08"}
+{"level":"info","message":"Checking Blink payment status for quick_payment_id: f4b964d1-9f28-42e5-bb1e-990c7b5edaca","service":"payment-server","timestamp":"2025-03-04 01:15:08"}
+{"level":"info","message":"Requesting Blink access token for status check...","service":"payment-server","timestamp":"2025-03-04 01:15:08"}
+{"level":"info","message":"Successfully obtained Blink access token for status check","service":"payment-server","timestamp":"2025-03-04 01:15:08"}
+{"level":"info","message":"Blink status response for f4b964d1-9f28-42e5-bb1e-990c7b5edaca: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:09"}
+{"level":"info","message":"Logged status check for payment 223: unknown","service":"payment-server","timestamp":"2025-03-04 01:15:09"}
+{"level":"info","message":"Updated payment record 223 with status: GatewayAwaitingSubmission","service":"payment-server","timestamp":"2025-03-04 01:15:09"}
+{"level":"info","message":"Completed 1min status check for BLINK payment f4b964d1-9f28-42e5-bb1e-990c7b5edaca","service":"payment-server","timestamp":"2025-03-04 01:15:09"}
+{"level":"info","message":"Job BLINK-f4b964d1-9f28-42e5-bb1e-990c7b5edaca-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:15:09"}
+{"duration":10,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:15:20","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:15:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:15:50","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:16:20","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:16:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:16:50","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:17:20","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:17:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:18:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:18:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":1,"ip":"10.240.4.3","level":"warn","message":"GET / 404 - 1ms","method":"GET","service":"payment-server","status":404,"timestamp":"2025-03-04 01:18:37","url":"/","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:19:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:19:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:20:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:20:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:21:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:21:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:22:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:22:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:23:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:23:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 01:23:49"}
+{"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 01:23:49"}
+{"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 01:23:49"}
+{"level":"info","message":"Database config initialized for development environment","service":"payment-server","timestamp":"2025-03-04 01:43:08"}
+{"level":"info","message":"Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)","service":"payment-server","timestamp":"2025-03-04 01:43:08"}
+{"ADMIN_PASSWORD":"Set","DATABASE_URL":"Set","JWT_SECRET":"Set","POLI_AUTH_CODE":"Set","PORT":"Not Set","component":"system","level":"info","message":"Environment variables loaded","service":"payment-server","timestamp":"2025-03-04 01:43:08"}
+{"component":"system","level":"info","message":"Middleware initialized","service":"payment-server","timestamp":"2025-03-04 01:43:08"}
+{"component":"system","level":"info","message":"Server started on port 3000","service":"payment-server","timestamp":"2025-03-04 01:43:08"}
+{"component":"payments","level":"info","message":"Payment status checking service initialized","service":"payment-server","timestamp":"2025-03-04 01:43:08"}
+{"level":"info","message":"Processing payment status check job: POLi-X6Dnx-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Checking POLi payment status for: X6Dnx","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"POLi status check URL: https://publicapi.uat3.paywithpoli.com/api/POLiLink/Status/X6Dnx","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"POLi auth code available: Yes","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"POLi status response for X6Dnx: Activated","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Logged status check for payment 214: Activated","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Updated payment record 214 with status: Activated","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Completed 3min status check for POLi payment X6Dnx","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Job POLi-X6Dnx-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Processing payment status check job: STRIPE-cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Checking Stripe payment status for session: cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Stripe status response for cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Logged status check for payment 215: unpaid","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Updated payment record 215 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Completed 3min status check for STRIPE payment cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Job STRIPE-cs_test_a1GeNZAkFHxOKmrdu0jiQk5lieVpGiGYtSGxKuXEWlPSHclMsdXmhz3seF-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Processing payment status check job: ALIPAY-cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Checking Alipay payment status for session: cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Alipay status response for cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Logged status check for payment 216: unpaid","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Updated payment record 216 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Completed 3min status check for ALIPAY payment cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Job ALIPAY-cs_test_a1akWAI9FlZGC5yCUFbtb8JfJ5wUBXBRQqITK8EzuoSbPShNUmOY5kSgtP-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Processing payment status check job: BLINK-89171612-2a8c-4ec0-a4cd-2a17baa4bc7a-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Checking Blink payment status for quick_payment_id: 89171612-2a8c-4ec0-a4cd-2a17baa4bc7a","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Requesting Blink access token for status check...","service":"payment-server","timestamp":"2025-03-04 01:43:09"}
+{"level":"info","message":"Successfully obtained Blink access token for status check","service":"payment-server","timestamp":"2025-03-04 01:43:10"}
+{"level":"info","message":"Blink status response for 89171612-2a8c-4ec0-a4cd-2a17baa4bc7a: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:10"}
+{"level":"info","message":"Logged status check for payment 217: unknown","service":"payment-server","timestamp":"2025-03-04 01:43:10"}
+{"level":"info","message":"Updated payment record 217 with status: GatewayTimeout","service":"payment-server","timestamp":"2025-03-04 01:43:10"}
+{"level":"info","message":"Completed 3min status check for BLINK payment 89171612-2a8c-4ec0-a4cd-2a17baa4bc7a","service":"payment-server","timestamp":"2025-03-04 01:43:10"}
+{"level":"info","message":"Job BLINK-89171612-2a8c-4ec0-a4cd-2a17baa4bc7a-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:10"}
+{"level":"info","message":"Processing payment status check job: BTCPAY-9fgazF4uNEupptCwQVSwe5-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:10"}
+{"level":"info","message":"Checking BTCPay invoice status for: 9fgazF4uNEupptCwQVSwe5","service":"payment-server","timestamp":"2025-03-04 01:43:10"}
+{"level":"info","message":"BTCPay status response for 9fgazF4uNEupptCwQVSwe5: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:11"}
+{"level":"info","message":"Logged status check for payment 218: Expired","service":"payment-server","timestamp":"2025-03-04 01:43:11"}
+{"level":"info","message":"Updated payment record 218 with status: Expired","service":"payment-server","timestamp":"2025-03-04 01:43:11"}
+{"level":"info","message":"Completed 3min status check for BTCPAY payment 9fgazF4uNEupptCwQVSwe5","service":"payment-server","timestamp":"2025-03-04 01:43:11"}
+{"level":"info","message":"Job BTCPAY-9fgazF4uNEupptCwQVSwe5-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:43:11"}
+{"duration":12,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:43:30","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Executing queries...","service":"payment-server","timestamp":"2025-03-04 01:43:33"}
+{"level":"info","message":"Found 50 payments of 223 total","service":"payment-server","timestamp":"2025-03-04 01:43:33"}
+{"duration":31,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:43:33","url":"/payments"}
+{"duration":4,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:43:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:00"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:00"}
+{"level":"info","message":"Payment status results: ","service":"payment-server","timestamp":"2025-03-04 01:44:00"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:44:00","url":"/payment-status/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:03"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:03"}
+{"level":"info","message":"Payment status results: ","service":"payment-server","timestamp":"2025-03-04 01:44:03"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:44:03","url":"/payment-status/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88"}
+{"duration":8,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:44:05","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:05"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:05"}
+{"level":"info","message":"Payment status results: ","service":"payment-server","timestamp":"2025-03-04 01:44:05"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:44:05","url":"/payment-status/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:08"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:08"}
+{"level":"info","message":"Payment status results: ","service":"payment-server","timestamp":"2025-03-04 01:44:08"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:44:08","url":"/payment-status/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:11"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88","service":"payment-server","timestamp":"2025-03-04 01:44:11"}
+{"level":"info","message":"Payment status results: ","service":"payment-server","timestamp":"2025-03-04 01:44:11"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:44:11","url":"/payment-status/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzQiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUwODQ1NTI2LCJpYXQiOjE3NDEwNTA4NDUsImV4cCI6MTc0MTA1NDQ0NX0.DQb75GizfHuP1FJlYhiJwVtyKrCp44WT_g2hcHj9S88"}
+{"duration":12,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:44:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:44:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:45:05","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:45:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:45:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:46:05","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Processing payment status check job: POLi-BdGWn-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:05"}
+{"level":"info","message":"Checking POLi payment status for: BdGWn","service":"payment-server","timestamp":"2025-03-04 01:46:05"}
+{"level":"info","message":"POLi status check URL: https://publicapi.uat3.paywithpoli.com/api/POLiLink/Status/BdGWn","service":"payment-server","timestamp":"2025-03-04 01:46:05"}
+{"level":"info","message":"POLi auth code available: Yes","service":"payment-server","timestamp":"2025-03-04 01:46:05"}
+{"level":"info","message":"POLi status response for BdGWn: Unused","service":"payment-server","timestamp":"2025-03-04 01:46:05"}
+{"level":"info","message":"Logged status check for payment 219: Unused","service":"payment-server","timestamp":"2025-03-04 01:46:05"}
+{"level":"info","message":"Updated payment record 219 with status: Unused","service":"payment-server","timestamp":"2025-03-04 01:46:05"}
+{"level":"info","message":"Completed 3min status check for POLi payment BdGWn","service":"payment-server","timestamp":"2025-03-04 01:46:05"}
+{"level":"info","message":"Job POLi-BdGWn-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:05"}
+{"level":"info","message":"Processing payment status check job: ALIPAY-cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Checking Alipay payment status for session: cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Alipay status response for cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Logged status check for payment 220: unpaid","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Updated payment record 220 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Completed 3min status check for ALIPAY payment cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Job ALIPAY-cs_test_a1RvCaSj0ZbewURuotE2RwHR7X6T6O1dQJZjUHLMjydfR7lwHSmEA1OZJo-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Processing payment status check job: STRIPE-cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Checking Stripe payment status for session: cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Stripe status response for cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Logged status check for payment 221: unpaid","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Updated payment record 221 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Completed 3min status check for STRIPE payment cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Job STRIPE-cs_test_a1zMZqGclBsj2FIP3Auk8VZYZippv86zYtnzJzlV1MgzY9QT55r4bjOy3Z-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Processing payment status check job: BTCPAY-QjMZBLqkqig3PSRdUqPjJd-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"Checking BTCPay invoice status for: QjMZBLqkqig3PSRdUqPjJd","service":"payment-server","timestamp":"2025-03-04 01:46:06"}
+{"level":"info","message":"BTCPay status response for QjMZBLqkqig3PSRdUqPjJd: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Logged status check for payment 222: Expired","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Updated payment record 222 with status: Expired","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Completed 3min status check for BTCPAY payment QjMZBLqkqig3PSRdUqPjJd","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Job BTCPAY-QjMZBLqkqig3PSRdUqPjJd-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Processing payment status check job: BLINK-f4b964d1-9f28-42e5-bb1e-990c7b5edaca-32min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Checking Blink payment status for quick_payment_id: f4b964d1-9f28-42e5-bb1e-990c7b5edaca","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Blink status response for f4b964d1-9f28-42e5-bb1e-990c7b5edaca: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Logged status check for payment 223: unknown","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Updated payment record 223 with status: GatewayTimeout","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Completed 3min status check for BLINK payment f4b964d1-9f28-42e5-bb1e-990c7b5edaca","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"level":"info","message":"Job BLINK-f4b964d1-9f28-42e5-bb1e-990c7b5edaca-32min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:46:07"}
+{"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 01:46:30"}
+{"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 01:46:30"}
+{"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 01:46:31"}
+{"level":"info","message":"Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)","service":"payment-server","timestamp":"2025-03-04 01:49:25"}
+{"ADMIN_PASSWORD":"Set","DATABASE_URL":"Set","JWT_SECRET":"Set","POLI_AUTH_CODE":"Set","PORT":"Not Set","component":"system","level":"info","message":"Environment variables loaded","service":"payment-server","timestamp":"2025-03-04 01:49:25"}
+{"component":"system","level":"info","message":"Middleware initialized","service":"payment-server","timestamp":"2025-03-04 01:49:25"}
+{"component":"system","level":"info","message":"Server started on port 3000","service":"payment-server","timestamp":"2025-03-04 01:49:25"}
+{"component":"payments","level":"info","message":"Payment status checking service initialized","service":"payment-server","timestamp":"2025-03-04 01:49:25"}
+{"duration":17,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:49:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":5,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:49:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:50:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:50:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"\n=== Starting Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Processing order: TO-3635","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"\n=== POLi Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Generating POLi payment link for order: TO-3635","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"POLi Generated Expiry Time: 2025-03-04T15:20:57+13:00","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"POLi API Payload: {\"LinkType\":\"0\",\"Amount\":\"323.40\",\"MerchantReference\":\"TO-3635\",\"LinkExpiry\":\"2025-03-04T15:20:57+13:00\"}","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"\n=== Blink Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Generating Blink payment link for order: TO-3635","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"\n=== Blink Authentication ===","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Requesting Blink access token...","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"\n=== BTCPay Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Generating BTCPay invoice for order: TO-3635","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"BTCPay request configuration: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"\n=== Stripe Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Generating Stripe payment link for order: TO-3635","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Payment calculation: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"\n=== Alipay Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Generating Alipay payment link for order: TO-3635","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Alipay payment calculation: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"duration":61,"isWebRequest":true,"level":"info","message":"Web request processed","method":"POST","service":"payment-server","status":200,"timestamp":"2025-03-04 01:50:57","url":"/create"}
+{"level":"info","message":"POLi API Response: https://uat3.poli.to/SzBJJ","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Extracted POLi token (payid): SzBJJ","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Scheduling status checks for POLi payment SzBJJ","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Scheduled status checks for POLi payment SzBJJ at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Successfully obtained Blink access token","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Blink API Payload: {\"flow\":{\"detail\":{\"type\":\"gateway\",\"redirect_uri\":\"https://gold-buyers-christchurch.webflow.io/\",\"flow_hint\":{\"type\":\"redirect\",\"bank\":\"PNZ\"}}},\"pcr\":{\"particulars\":\"TO-3635\",\"code\":\"TO-3635\",\"reference\":\"293\"},\"amount\":{\"total\":\"323.40\",\"currency\":\"NZD\"}}","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Stripe Checkout Session created: cs_test_a1cqLY3G37gmw1VLecCX8w78vJZ8Mni6YgACQ5WVRHHb2RPPIeR5a3s1YQ","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Scheduling status checks for STRIPE payment cs_test_a1cqLY3G37gmw1VLecCX8w78vJZ8Mni6YgACQ5WVRHHb2RPPIeR5a3s1YQ","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Scheduled status checks for STRIPE payment cs_test_a1cqLY3G37gmw1VLecCX8w78vJZ8Mni6YgACQ5WVRHHb2RPPIeR5a3s1YQ at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Alipay Checkout Session created: cs_test_a13UJdFcFVXWmZRdxngAgCqGJovUzlpp09PQs34KmrUXQdahrHTeLpJgYg","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Scheduling status checks for ALIPAY payment cs_test_a13UJdFcFVXWmZRdxngAgCqGJovUzlpp09PQs34KmrUXQdahrHTeLpJgYg","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Scheduled status checks for ALIPAY payment cs_test_a13UJdFcFVXWmZRdxngAgCqGJovUzlpp09PQs34KmrUXQdahrHTeLpJgYg at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"BTCPay API Response: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Scheduling status checks for BTCPAY payment AWCsZfTUqfxhxcKH1iDXd4","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Scheduled status checks for BTCPAY payment AWCsZfTUqfxhxcKH1iDXd4 at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:50:57"}
+{"level":"info","message":"Blink API Response: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:50:58"}
+{"level":"info","message":"Scheduling status checks for BLINK payment bce21b6b-7723-4cbc-add3-9636b36a7ceb","service":"payment-server","timestamp":"2025-03-04 01:50:58"}
+{"level":"info","message":"Scheduled status checks for BLINK payment bce21b6b-7723-4cbc-add3-9636b36a7ceb at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 01:50:58"}
+{"level":"info","message":"=== Payment Processing Complete ===\n","service":"payment-server","timestamp":"2025-03-04 01:50:58"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzUiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUzMDU3MTEwLCJpYXQiOjE3NDEwNTMwNTcsImV4cCI6MTc0MTA1NjY1N30.2Y1e3YZx-i_VOG1HBgHscITDlfQYumOMJDt9zumnBTs","service":"payment-server","timestamp":"2025-03-04 01:51:04"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzUiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUzMDU3MTEwLCJpYXQiOjE3NDEwNTMwNTcsImV4cCI6MTc0MTA1NjY1N30.2Y1e3YZx-i_VOG1HBgHscITDlfQYumOMJDt9zumnBTs","service":"payment-server","timestamp":"2025-03-04 01:51:04"}
+{"level":"info","message":"Payment status results: [object Object],[object Object],[object Object],[object Object],[object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:04"}
+{"duration":4,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:51:04","url":"/payment-status/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzUiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDUzMDU3MTEwLCJpYXQiOjE3NDEwNTMwNTcsImV4cCI6MTc0MTA1NjY1N30.2Y1e3YZx-i_VOG1HBgHscITDlfQYumOMJDt9zumnBTs"}
+{"duration":8,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:51:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:51:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Processing payment status check job: POLi-SzBJJ-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"Checking POLi payment status for: SzBJJ","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"POLi status check URL: https://publicapi.uat3.paywithpoli.com/api/POLiLink/Status/SzBJJ","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"POLi auth code available: Yes","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"POLi status response for SzBJJ: Unused","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"Logged status check for payment 224: Unused","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"Updated payment record 224 with status: Unused","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"Completed 1min status check for POLi payment SzBJJ","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"Job POLi-SzBJJ-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"Processing payment status check job: STRIPE-cs_test_a1cqLY3G37gmw1VLecCX8w78vJZ8Mni6YgACQ5WVRHHb2RPPIeR5a3s1YQ-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"Checking Stripe payment status for session: cs_test_a1cqLY3G37gmw1VLecCX8w78vJZ8Mni6YgACQ5WVRHHb2RPPIeR5a3s1YQ","service":"payment-server","timestamp":"2025-03-04 01:51:57"}
+{"level":"info","message":"Stripe status response for cs_test_a1cqLY3G37gmw1VLecCX8w78vJZ8Mni6YgACQ5WVRHHb2RPPIeR5a3s1YQ: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Logged status check for payment 225: unpaid","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Updated payment record 225 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Completed 1min status check for STRIPE payment cs_test_a1cqLY3G37gmw1VLecCX8w78vJZ8Mni6YgACQ5WVRHHb2RPPIeR5a3s1YQ","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Job STRIPE-cs_test_a1cqLY3G37gmw1VLecCX8w78vJZ8Mni6YgACQ5WVRHHb2RPPIeR5a3s1YQ-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Processing payment status check job: ALIPAY-cs_test_a13UJdFcFVXWmZRdxngAgCqGJovUzlpp09PQs34KmrUXQdahrHTeLpJgYg-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Checking Alipay payment status for session: cs_test_a13UJdFcFVXWmZRdxngAgCqGJovUzlpp09PQs34KmrUXQdahrHTeLpJgYg","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Alipay status response for cs_test_a13UJdFcFVXWmZRdxngAgCqGJovUzlpp09PQs34KmrUXQdahrHTeLpJgYg: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Logged status check for payment 226: unpaid","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Updated payment record 226 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Completed 1min status check for ALIPAY payment cs_test_a13UJdFcFVXWmZRdxngAgCqGJovUzlpp09PQs34KmrUXQdahrHTeLpJgYg","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Job ALIPAY-cs_test_a13UJdFcFVXWmZRdxngAgCqGJovUzlpp09PQs34KmrUXQdahrHTeLpJgYg-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Processing payment status check job: BTCPAY-AWCsZfTUqfxhxcKH1iDXd4-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"Checking BTCPay invoice status for: AWCsZfTUqfxhxcKH1iDXd4","service":"payment-server","timestamp":"2025-03-04 01:51:58"}
+{"level":"info","message":"BTCPay status response for AWCsZfTUqfxhxcKH1iDXd4: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Logged status check for payment 227: New","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Updated payment record 227 with status: New","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Completed 1min status check for BTCPAY payment AWCsZfTUqfxhxcKH1iDXd4","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Job BTCPAY-AWCsZfTUqfxhxcKH1iDXd4-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Processing payment status check job: BLINK-bce21b6b-7723-4cbc-add3-9636b36a7ceb-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Checking Blink payment status for quick_payment_id: bce21b6b-7723-4cbc-add3-9636b36a7ceb","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Requesting Blink access token for status check...","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Successfully obtained Blink access token for status check","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Blink status response for bce21b6b-7723-4cbc-add3-9636b36a7ceb: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Logged status check for payment 228: unknown","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Updated payment record 228 with status: GatewayAwaitingSubmission","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Completed 1min status check for BLINK payment bce21b6b-7723-4cbc-add3-9636b36a7ceb","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"level":"info","message":"Job BLINK-bce21b6b-7723-4cbc-add3-9636b36a7ceb-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 01:52:00"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:52:14","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Executing queries...","service":"payment-server","timestamp":"2025-03-04 01:52:17"}
+{"level":"info","message":"Found 50 payments of 228 total","service":"payment-server","timestamp":"2025-03-04 01:52:17"}
+{"duration":16,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:52:17","url":"/payments"}
+{"duration":8,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:52:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:52:48","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:53:18","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":10,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:53:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:53:48","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:54:18","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:54:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:55:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":304,"timestamp":"2025-03-04 01:55:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":8,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:56:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":4,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:56:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:57:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:57:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:58:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:58:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:59:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 01:59:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:00:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:00:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":10,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:01:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:01:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":7,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:02:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:02:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:03:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:03:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":8,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:04:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:04:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:05:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":2,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:05:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 02:06:17"}
+{"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 02:06:17"}
+{"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 02:06:18"}
+{"level":"info","message":"Database config initialized for development environment","service":"payment-server","timestamp":"2025-03-04 02:07:22"}
+{"level":"info","message":"Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)","service":"payment-server","timestamp":"2025-03-04 02:07:22"}
+{"ADMIN_PASSWORD":"Set","DATABASE_URL":"Set","JWT_SECRET":"Set","POLI_AUTH_CODE":"Set","PORT":"Not Set","component":"system","level":"info","message":"Environment variables loaded","service":"payment-server","timestamp":"2025-03-04 02:07:22"}
+{"component":"system","level":"info","message":"Middleware initialized","service":"payment-server","timestamp":"2025-03-04 02:07:22"}
+{"component":"system","level":"info","message":"Server started on port 3000","service":"payment-server","timestamp":"2025-03-04 02:07:22"}
+{"component":"payments","level":"info","message":"Payment status checking service initialized","service":"payment-server","timestamp":"2025-03-04 02:07:22"}
+{"duration":17,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:07:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:07:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 02:08:13"}
+{"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 02:08:13"}
+{"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 02:08:14"}
+{"level":"info","message":"Database config initialized for development environment","service":"payment-server","timestamp":"2025-03-04 02:08:20"}
+{"level":"info","message":"Job cleanup skipped (CLEANUP_PAYMENT_STATUS_QUEUE=false)","service":"payment-server","timestamp":"2025-03-04 02:08:20"}
+{"ADMIN_PASSWORD":"Set","DATABASE_URL":"Set","JWT_SECRET":"Set","POLI_AUTH_CODE":"Set","PORT":"Not Set","component":"system","level":"info","message":"Environment variables loaded","service":"payment-server","timestamp":"2025-03-04 02:08:20"}
+{"component":"system","level":"info","message":"Middleware initialized","service":"payment-server","timestamp":"2025-03-04 02:08:20"}
+{"component":"system","level":"info","message":"Server started on port 3000","service":"payment-server","timestamp":"2025-03-04 02:08:20"}
+{"component":"payments","level":"info","message":"Payment status checking service initialized","service":"payment-server","timestamp":"2025-03-04 02:08:20"}
+{"duration":17,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:08:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":6,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:08:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"\n=== Starting Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Processing order: TO-3636","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"\n=== POLi Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Generating POLi payment link for order: TO-3636","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"POLi Generated Expiry Time: 2025-03-04T15:38:44+13:00","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"POLi API Payload: {\"LinkType\":\"0\",\"Amount\":\"323.30\",\"MerchantReference\":\"TO-3636\",\"LinkExpiry\":\"2025-03-04T15:38:44+13:00\"}","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"\n=== Blink Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Generating Blink payment link for order: TO-3636","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"\n=== Blink Authentication ===","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Requesting Blink access token...","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"\n=== BTCPay Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Generating BTCPay invoice for order: TO-3636","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"BTCPay request configuration: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"\n=== Stripe Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Generating Stripe payment link for order: TO-3636","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Payment calculation: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"\n=== Alipay Payment Processing ===","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Generating Alipay payment link for order: TO-3636","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Alipay payment calculation: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"duration":91,"isWebRequest":true,"level":"info","message":"Web request processed","method":"POST","service":"payment-server","status":200,"timestamp":"2025-03-04 02:08:44","url":"/create"}
+{"level":"info","message":"POLi API Response: https://uat3.poli.to/x7pbd","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Extracted POLi token (payid): x7pbd","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Scheduling status checks for POLi payment x7pbd","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Scheduled status checks for POLi payment x7pbd at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Successfully obtained Blink access token","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Blink API Payload: {\"flow\":{\"detail\":{\"type\":\"gateway\",\"redirect_uri\":\"https://gold-buyers-christchurch.webflow.io/\",\"flow_hint\":{\"type\":\"redirect\",\"bank\":\"PNZ\"}}},\"pcr\":{\"particulars\":\"TO-3636\",\"code\":\"TO-3636\",\"reference\":\"294\"},\"amount\":{\"total\":\"323.30\",\"currency\":\"NZD\"}}","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Alipay Checkout Session created: cs_test_a1wiPpCI5HaDENkDzfTsW1zMkHIkEEM6Azb5WfiDzUwbgdbD5Ia9zzUyed","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Scheduling status checks for ALIPAY payment cs_test_a1wiPpCI5HaDENkDzfTsW1zMkHIkEEM6Azb5WfiDzUwbgdbD5Ia9zzUyed","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Scheduled status checks for ALIPAY payment cs_test_a1wiPpCI5HaDENkDzfTsW1zMkHIkEEM6Azb5WfiDzUwbgdbD5Ia9zzUyed at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 02:08:44"}
+{"level":"info","message":"Blink API Response: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"Scheduling status checks for BLINK payment 47f777af-8f20-4403-a380-9fe0f9c0f26a","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"Scheduled status checks for BLINK payment 47f777af-8f20-4403-a380-9fe0f9c0f26a at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"BTCPay API Response: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"Scheduling status checks for BTCPAY payment 8nnGzMGuLEcPpYw4pSSWji","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"Scheduled status checks for BTCPAY payment 8nnGzMGuLEcPpYw4pSSWji at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"Stripe Checkout Session created: cs_test_a1YHvCXa6Fm93vvRET1X4doV7ktTiJyY8OYYWkSybLvAAW3saRh7GGWTQx","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"Scheduling status checks for STRIPE payment cs_test_a1YHvCXa6Fm93vvRET1X4doV7ktTiJyY8OYYWkSybLvAAW3saRh7GGWTQx","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"Scheduled status checks for STRIPE payment cs_test_a1YHvCXa6Fm93vvRET1X4doV7ktTiJyY8OYYWkSybLvAAW3saRh7GGWTQx at +1min and +32min (testing)","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"=== Payment Processing Complete ===\n","service":"payment-server","timestamp":"2025-03-04 02:08:45"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzYiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDU0MTI0Mjk1LCJpYXQiOjE3NDEwNTQxMjQsImV4cCI6MTc0MTA1NzcyNH0.wRMgXSMc0AZ9CF-9ITBJR_DnFQZl-e_-FNfVXJHJJ2M","service":"payment-server","timestamp":"2025-03-04 02:08:51"}
+{"level":"info","message":"Checking payment status for token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzYiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDU0MTI0Mjk1LCJpYXQiOjE3NDEwNTQxMjQsImV4cCI6MTc0MTA1NzcyNH0.wRMgXSMc0AZ9CF-9ITBJR_DnFQZl-e_-FNfVXJHJJ2M","service":"payment-server","timestamp":"2025-03-04 02:08:51"}
+{"level":"info","message":"Payment status results: [object Object],[object Object],[object Object],[object Object],[object Object]","service":"payment-server","timestamp":"2025-03-04 02:08:51"}
+{"duration":3,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:08:51","url":"/payment-status/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFkZV9vcmRlciI6IlRPLTM2MzYiLCJlbWFpbF9vcmRlciI6ImpvZS5yaWdodDEwMDFAZ21haWwuY29tIiwidGltZXN0YW1wIjoxNzQxMDU0MTI0Mjk1LCJpYXQiOjE3NDEwNTQxMjQsImV4cCI6MTc0MTA1NzcyNH0.wRMgXSMc0AZ9CF-9ITBJR_DnFQZl-e_-FNfVXJHJJ2M"}
+{"duration":8,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:09:34","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"duration":5,"isWebRequest":true,"level":"info","message":"Web request processed","method":"GET","service":"payment-server","status":200,"timestamp":"2025-03-04 02:09:35","url":"/payments/data?search=&searchTO=&provider=&reviewedFilter=all"}
+{"level":"info","message":"Processing payment status check job: POLi-x7pbd-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"Checking POLi payment status for: x7pbd","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"POLi status check URL: https://publicapi.uat3.paywithpoli.com/api/POLiLink/Status/x7pbd","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"POLi auth code available: Yes","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"POLi status response for x7pbd: Unused","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"Logged status check for payment 229: Unused","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"Updated payment record 229 with status: Unused","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"Completed 1min status check for POLi payment x7pbd","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"Job POLi-x7pbd-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"Processing payment status check job: ALIPAY-cs_test_a1wiPpCI5HaDENkDzfTsW1zMkHIkEEM6Azb5WfiDzUwbgdbD5Ia9zzUyed-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"Checking Alipay payment status for session: cs_test_a1wiPpCI5HaDENkDzfTsW1zMkHIkEEM6Azb5WfiDzUwbgdbD5Ia9zzUyed","service":"payment-server","timestamp":"2025-03-04 02:09:44"}
+{"level":"info","message":"Alipay status response for cs_test_a1wiPpCI5HaDENkDzfTsW1zMkHIkEEM6Azb5WfiDzUwbgdbD5Ia9zzUyed: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Logged status check for payment 230: unpaid","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Updated payment record 230 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Completed 1min status check for ALIPAY payment cs_test_a1wiPpCI5HaDENkDzfTsW1zMkHIkEEM6Azb5WfiDzUwbgdbD5Ia9zzUyed","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Job ALIPAY-cs_test_a1wiPpCI5HaDENkDzfTsW1zMkHIkEEM6Azb5WfiDzUwbgdbD5Ia9zzUyed-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Processing payment status check job: BLINK-47f777af-8f20-4403-a380-9fe0f9c0f26a-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Checking Blink payment status for quick_payment_id: 47f777af-8f20-4403-a380-9fe0f9c0f26a","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Requesting Blink access token for status check...","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Successfully obtained Blink access token for status check","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Blink status response for 47f777af-8f20-4403-a380-9fe0f9c0f26a: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Logged status check for payment 231: unknown","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Updated payment record 231 with status: GatewayAwaitingSubmission","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Completed 1min status check for BLINK payment 47f777af-8f20-4403-a380-9fe0f9c0f26a","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Job BLINK-47f777af-8f20-4403-a380-9fe0f9c0f26a-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Processing payment status check job: BTCPAY-8nnGzMGuLEcPpYw4pSSWji-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"Checking BTCPay invoice status for: 8nnGzMGuLEcPpYw4pSSWji","service":"payment-server","timestamp":"2025-03-04 02:09:45"}
+{"level":"info","message":"BTCPay status response for 8nnGzMGuLEcPpYw4pSSWji: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Logged status check for payment 232: New","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Updated payment record 232 with status: New","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Completed 1min status check for BTCPAY payment 8nnGzMGuLEcPpYw4pSSWji","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Job BTCPAY-8nnGzMGuLEcPpYw4pSSWji-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Processing payment status check job: STRIPE-cs_test_a1YHvCXa6Fm93vvRET1X4doV7ktTiJyY8OYYWkSybLvAAW3saRh7GGWTQx-1min [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Checking Stripe payment status for session: cs_test_a1YHvCXa6Fm93vvRET1X4doV7ktTiJyY8OYYWkSybLvAAW3saRh7GGWTQx","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Stripe status response for cs_test_a1YHvCXa6Fm93vvRET1X4doV7ktTiJyY8OYYWkSybLvAAW3saRh7GGWTQx: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Logged status check for payment 233: unpaid","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Updated payment record 233 with status: unpaid","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Completed 1min status check for STRIPE payment cs_test_a1YHvCXa6Fm93vvRET1X4doV7ktTiJyY8OYYWkSybLvAAW3saRh7GGWTQx","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"level":"info","message":"Job STRIPE-cs_test_a1YHvCXa6Fm93vvRET1X4doV7ktTiJyY8OYYWkSybLvAAW3saRh7GGWTQx-1min completed: [object Object]","service":"payment-server","timestamp":"2025-03-04 02:09:47"}
+{"component":"system","level":"info","message":"Received kill signal, shutting down gracefully","service":"payment-server","timestamp":"2025-03-04 02:10:26"}
+{"component":"system","level":"info","message":"Closed out remaining connections","service":"payment-server","timestamp":"2025-03-04 02:10:26"}
+{"component":"payments","level":"info","message":"Payment status queue closed","service":"payment-server","timestamp":"2025-03-04 02:10:27"}
